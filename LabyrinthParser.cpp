@@ -2,33 +2,28 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <iterator>
+#include <string>
 
 LabyrinthParser::LabyrinthParser(const char* fileName)
 	: mBuffer(0), mWidth(0), mHeight(0)
 {
-	std::ifstream fileStream(fileName);
+	std::ifstream fileStream(fileName, std::ifstream::binary);
 	if(!fileStream) {
 		/* throw exception? */
 	}
+	mBuffer.insert( 
+		mBuffer.begin(), 
+		std::istream_iterator<char>(fileStream), 
+		std::istream_iterator<char>());
 
-	while(fileStream.good()) {
-		char temp = fileStream.get();
-		if(temp != '\n') {
-			mBuffer.push_back(temp);
+	for(int i = 0; i <= mBuffer.size(); i++) {
+		if(mBuffer[i] != '\n') {
+			mWidth = i;
 		}
 	}
 
-	int size = fileStream.gcount();
-
-	for (int i = 0; i < mBuffer.size(); ++i)
-	{
-		if(mBuffer[i] == '\n') {
-			mWidth = i+1;
-			break;
-		}
-	}
-
-	mHeight = size / mWidth;
+	mHeight = mBuffer.size() / mWidth;
 	fileStream.close();
 }
 
