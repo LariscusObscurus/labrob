@@ -6,9 +6,11 @@
 #include <string>
 
 LabyrinthParser::LabyrinthParser(const char* fileName)
-	: mBuffer(0), mWidth(0), mHeight(0)
+	: mBuffer(std::vector<char>(0)), mWidth(0), mHeight(0)
 {
-	std::ifstream fileStream(fileName, std::ifstream::binary);
+	std::ifstream fileStream(fileName, std::ios::binary);
+	fileStream.unsetf(std::ios_base::skipws);
+
 	if(!fileStream) {
 		/* throw exception? */
 	}
@@ -17,13 +19,18 @@ LabyrinthParser::LabyrinthParser(const char* fileName)
 		std::istream_iterator<char>(fileStream), 
 		std::istream_iterator<char>());
 
-	for(int i = 0; i <= mBuffer.size(); i++) {
-		if(mBuffer[i] != '\n') {
-			mWidth = i;
+	/*for(int i = 0; i <= (int) mBuffer.size(); i++) {
+		int lock = 1;
+		if(mBuffer[i] == '\n') {
+			if(lock) {
+				mWidth = i;
+				lock = 0;
+			}
+			mBuffer.erase(mBuffer.begin()+i);
 		}
-	}
+	}*/
 
-	mHeight = mBuffer.size() / mWidth;
+	//mHeight = mBuffer.size() / mWidth;
 	fileStream.close();
 }
 
