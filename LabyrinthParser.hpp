@@ -1,19 +1,18 @@
 #ifndef LABYRINTHPARSER_H
 #define LABYRINTHPARSER_H
 
-class IFileStream;
+#include <vector>
 
 class LabyrinthParser
 {
-	char* mBuffer;
+	std::vector<char> mBuffer;
 	int mWidth;
 	int mHeight;
 public:
 	LabyrinthParser(const char* fileName);
-	LabyrinthParser(IFileStream* fileStream);
 	~LabyrinthParser();
 
-	const char* getBuffer();
+	std::vector<char> getBuffer();
 	int getWidth();
 	int getHeight();
 };
