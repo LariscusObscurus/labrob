@@ -8,6 +8,8 @@ class Labyrinth
 	std::vector<char> mBuffer;
 	int mWidth;
 	int mHeight;
+	int mEntry;
+	int mExit;
 public:
 	Labyrinth();
 	~Labyrinth();
@@ -19,6 +21,8 @@ public:
 	std::vector<char> getBuffer();
 	int getWidth();
 	int getHeight();
+private:
+	int locateStartEnd();
 };
 
 #endif

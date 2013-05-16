@@ -4,8 +4,6 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
-#include <string>
-#include <sstream>
 
 Labyrinth::Labyrinth()
 	: mBuffer(0), mWidth(0), mHeight(0)
@@ -16,6 +14,12 @@ Labyrinth::~Labyrinth()
 {
 }
 
+/* Datei einlesen und Vector befüllen 
+ * Return Werte: 
+ * 	0 -> OK
+ * 	-1 -> Datei konnte nicht geöffnet werden
+ */
+
 int Labyrinth::readFile(const char *fileName)
 {
 	std::ifstream fileStream(fileName);
@@ -25,25 +29,33 @@ int Labyrinth::readFile(const char *fileName)
 		std::cerr << "Could not open file!" << std::endl;
 		return -1;
 	}
-  	std::string lab((std::istreambuf_iterator<char>(fileStream)), 
+
+	mBuffer = std::vector<char>(0);
+	mBuffer.insert(mBuffer.begin(),
+			std::istreambuf_iterator<char>(fileStream), 
 			std::istreambuf_iterator<char>());
 
-	for(int i = 0; i <= (int) lab.size(); i++) {
-		if (lab[i] == '\r')
+	for(int i = 0; i <= (int) mBuffer.size(); i++) {
+		if (mBuffer[i] == '\r')
 		{
 			mWidth = i;
 			break;
 		}
 	}
 
-	lab.erase(std::remove(lab.begin(), lab.end(), '\n'), lab.end());
-	lab.erase(std::remove(lab.begin(), lab.end(), '\r'), lab.end());
+	mBuffer.erase(std::remove(mBuffer.begin(), mBuffer.end(), '\n'), mBuffer.end());
+	mBuffer.erase(std::remove(mBuffer.begin(), mBuffer.end(), '\r'), mBuffer.end());
 
-	mBuffer = std::vector<char>(lab.begin(), lab.end());
-
+	mHeight = (int) mBuffer.size() / mWidth;
 	fileStream.close();
 	return 0;
 }
+
+/* Ist die angegebene Position frei? 
+ * Return Werte:
+ * 	false -> Feld ist nicht frei
+ * 	true -> Feld ist frei
+ */
 
 bool Labyrinth::isfree(int x, int y)
 {
@@ -54,6 +66,7 @@ bool Labyrinth::isfree(int x, int y)
 	}
 }
 
+/* Ausgabe des Labyrinths */
 void Labyrinth::display()
 {
 	for (int i = 0; i <= (int) mBuffer.size(); i++) {
@@ -81,4 +94,22 @@ int Labyrinth::getWidth()
 int Labyrinth::getHeight()
 {
 	return mHeight;
+}
+
+int Labyrinth::locateStartEnd()
+{
+	for (int i = 0; i <= (int) mBuffer.size(); i++) {
+
+		if(i < mWidth){
+
+		} else if (i > ((mWidth - 1) * mHeight)) {
+				
+		} else if((i % mWidth) == 0) {
+			
+		} else if ((i % mWidth) == 0) {
+		
+		}
+	}
+
+	return 0;
 }
