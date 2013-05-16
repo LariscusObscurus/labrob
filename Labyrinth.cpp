@@ -48,6 +48,7 @@ int Labyrinth::readFile(const char *fileName)
 
 	mHeight = (int) mBuffer.size() / mWidth;
 	fileStream.close();
+	locateStartEnd();
 	return 0;
 }
 
@@ -100,16 +101,17 @@ int Labyrinth::locateStartEnd()
 {
 	for (int i = 0; i <= (int) mBuffer.size(); i++) {
 
-		if(i < mWidth){
-
-		} else if (i > ((mWidth - 1) * mHeight)) {
-				
-		} else if((i % mWidth) == 0) {
-			
-		} else if ((i % mWidth) == 0) {
-		
+		if(mBuffer[i] != '#'){
+			if((i < mWidth) && (mBuffer[i] != '#')){
+				mEntry = i;
+			} else if((i % mWidth) == 0) {
+				mEntry = i;
+			} else if (i > ((mWidth - 1) * mHeight)) {
+				mExit = i;
+			} else if ((i % mWidth) == 1) {
+				mExit = i;
+			}
 		}
 	}
-
 	return 0;
 }
