@@ -1,4 +1,4 @@
-#include "LabyrinthParser.hpp"
+#include "Labyrinth.hpp"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -7,19 +7,28 @@
 #include <string>
 #include <sstream>
 
-LabyrinthParser::LabyrinthParser(const char* fileName)
-	: mWidth(0), mHeight(0)
+Labyrinth::Labyrinth()
+	: mBuffer(0), mWidth(0), mHeight(0)
+{
+}
+
+Labyrinth::~Labyrinth()
+{
+}
+
+int Labyrinth::readFile(const char *fileName)
 {
 	std::ifstream fileStream(fileName);
 	fileStream.unsetf(std::ios_base::skipws);
 
 	if(!fileStream) {
 		std::cerr << "Could not open file!" << std::endl;
+		return -1;
 	}
   	std::string lab((std::istreambuf_iterator<char>(fileStream)), 
 			std::istreambuf_iterator<char>());
 
-	for(int i = 0; i <= lab.size(); i++) {
+	for(int i = 0; i <= (int) lab.size(); i++) {
 		if (lab[i] == '\r')
 		{
 			mWidth = i;
@@ -29,27 +38,47 @@ LabyrinthParser::LabyrinthParser(const char* fileName)
 
 	lab.erase(std::remove(lab.begin(), lab.end(), '\n'), lab.end());
 	lab.erase(std::remove(lab.begin(), lab.end(), '\r'), lab.end());
-	std::cout << lab << std::endl;
 
 	mBuffer = std::vector<char>(lab.begin(), lab.end());
+
 	fileStream.close();
+	return 0;
 }
 
-LabyrinthParser::~LabyrinthParser()
+bool Labyrinth::isfree(int x, int y)
 {
+	if(mBuffer[y * mWidth + x] == '#') {
+		return false;
+	} else {
+		return true;
+	}
 }
 
-std::vector<char> LabyrinthParser::getBuffer()
+void Labyrinth::display()
+{
+	for (int i = 0; i <= (int) mBuffer.size(); i++) {
+		if(i == (int) mBuffer.size()) {
+			std::cout << std::endl;
+
+		} else if(((i % mWidth) == 0) ) {
+			std::cout << std::endl << mBuffer[i];
+		} else {
+			std::cout << mBuffer[i];
+		}
+	}
+}
+
+std::vector<char> Labyrinth::getBuffer()
 {
 	return mBuffer;
 }
 
-int LabyrinthParser::getWidth()
+int Labyrinth::getWidth()
 {
 	return mWidth;
 }
 
-int LabyrinthParser::getHeight()
+int Labyrinth::getHeight()
 {
 	return mHeight;
 }

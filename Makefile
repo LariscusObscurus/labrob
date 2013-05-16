@@ -8,7 +8,7 @@ else
 CFLAGS+=-g -D_DEBUG=1
 endif
 
-SRC=LabyrinthParser.cpp main.cpp
+SRC=Labyrinth.cpp main.cpp
 OBJ=$(SRC:.cpp=.o)
 
 all: $(NAME)

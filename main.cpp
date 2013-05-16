@@ -1,17 +1,13 @@
 #include <iostream>
-#include "LabyrinthParser.hpp"
+#include "Labyrinth.hpp"
 
 int main(int argc, char *argv[])
 {
-	LabyrinthParser * parser = new LabyrinthParser(argv[1]);
-	std::vector<char> buf = parser->getBuffer();
-	for (int i = 0; i <= buf.size(); i++) {
-		if((i % parser->getWidth()) == 0) {
-			std::cout << std::endl << buf[i];
-		} else {
-			std::cout << buf[i];
-		}
+	if(argc < 1) {
+		std::cout << "Verwendung: labyrinth DATEINAME [-t1] [-t2] ... [-tN] [-h]" << std::endl;
 	}
-	std::cout << parser->getWidth();
+	Labyrinth * lab = new Labyrinth();
+	lab->readFile(argv[1]);
+	lab->display();
 	return 0;
 }

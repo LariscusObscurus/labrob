@@ -3,15 +3,19 @@
 
 #include <vector>
 
-class LabyrinthParser
+class Labyrinth
 {
 	std::vector<char> mBuffer;
 	int mWidth;
 	int mHeight;
 public:
-	LabyrinthParser(const char* fileName);
-	~LabyrinthParser();
+	Labyrinth();
+	~Labyrinth();
 
+	int readFile(const char* fileName);
+	bool isfree(int x, int y);
+	void display();
+	int newRobot();
 	std::vector<char> getBuffer();
 	int getWidth();
 	int getHeight();
