@@ -1,7 +1,6 @@
 #include "Labyrinth.hpp"
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include <algorithm>
 #include <iterator>
 
@@ -36,8 +35,7 @@ int Labyrinth::readFile(const char *fileName)
 			std::istreambuf_iterator<char>());
 
 	for(int i = 0; i <= (int) mBuffer.size(); i++) {
-		if (mBuffer[i] == '\r')
-		{
+		if (mBuffer[i] == '\r') {
 			mWidth = i;
 			break;
 		}
@@ -60,11 +58,7 @@ int Labyrinth::readFile(const char *fileName)
 
 bool Labyrinth::isfree(int x, int y)
 {
-	if(mBuffer[y * mWidth + x] == '#') {
-		return false;
-	} else {
-		return true;
-	}
+	return (mBuffer[y * mWidth + x] != '#');
 }
 
 /* Ausgabe des Labyrinths */
@@ -73,7 +67,6 @@ void Labyrinth::display()
 	for (int i = 0; i <= (int) mBuffer.size(); i++) {
 		if(i == (int) mBuffer.size()) {
 			std::cout << std::endl;
-
 		} else if(((i % mWidth) == 0) ) {
 			std::cout << std::endl << mBuffer[i];
 		} else {
@@ -100,9 +93,8 @@ int Labyrinth::getHeight()
 int Labyrinth::locateStartEnd()
 {
 	for (int i = 0; i <= (int) mBuffer.size(); i++) {
-
-		if(mBuffer[i] != '#'){
-			if((i < mWidth) && (mBuffer[i] != '#')){
+		if(mBuffer[i] != '#') {
+			if((i < mWidth) && (mBuffer[i] != '#')) {
 				mEntry = i;
 			} else if((i % mWidth) == 0) {
 				mEntry = i;
