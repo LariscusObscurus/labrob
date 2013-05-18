@@ -62,5 +62,6 @@ int main(int argc, char *argv[])
 	Labyrinth * lab = new Labyrinth(fileStream);
 	lab->display();
 
+	delete lab;
 	return 0;
 }
