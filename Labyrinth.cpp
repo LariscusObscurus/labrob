@@ -4,31 +4,9 @@
 #include <algorithm>
 #include <iterator>
 
-Labyrinth::Labyrinth()
+Labyrinth::Labyrinth(std::ifstream& fileStream)
 	: mBuffer(0), mWidth(0), mHeight(0)
 {
-}
-
-Labyrinth::~Labyrinth()
-{
-}
-
-/* Datei einlesen und Vector befüllen 
- * Return Werte: 
- * 	0 -> OK
- * 	-1 -> Datei konnte nicht geöffnet werden
- */
-
-int Labyrinth::readFile(const char *fileName)
-{
-	std::ifstream fileStream(fileName);
-	fileStream.unsetf(std::ios_base::skipws);
-
-	if(!fileStream) {
-		std::cerr << "Could not open file!" << std::endl;
-		return -1;
-	}
-
 	mBuffer = std::vector<char>(0);
 	mBuffer.insert(mBuffer.begin(),
 			std::istreambuf_iterator<char>(fileStream), 
@@ -47,8 +25,12 @@ int Labyrinth::readFile(const char *fileName)
 	mHeight = (int) mBuffer.size() / mWidth;
 	fileStream.close();
 	locateStartEnd();
-	return 0;
 }
+
+Labyrinth::~Labyrinth()
+{
+}
+
 
 /* Ist die angegebene Position frei? 
  * Return Werte:

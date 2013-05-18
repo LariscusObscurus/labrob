@@ -2,6 +2,7 @@
 #define LABYRINTHPARSER_H
 
 #include <vector>
+#include <fstream>
 
 class Labyrinth
 {
@@ -11,15 +12,8 @@ class Labyrinth
 	int mEntry;
 	int mExit;
 public:
-	Labyrinth();
+	Labyrinth(std::ifstream& fileStream);
 	~Labyrinth();
-
-/* Datei einlesen und Vector befüllen 
- * Return Werte: 
- * 	0 -> OK
- * 	-1 -> Datei konnte nicht geöffnet werden
- */
-	int readFile(const char* fileName);
 
 /* Ist die angegebene Position frei? 
  * Return Werte:
