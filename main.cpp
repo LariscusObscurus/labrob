@@ -45,11 +45,13 @@ int main(int argc, char *argv[])
 
 	getCmdOption(argv, argv+argc, "-t", args);
 
-	std::cout << "Gestartete Roboter: ";
-	for(auto it = args.begin(); it != args.end(); ++it) {
-		std::cout << it[0];
+	if(args.size() > 0) {
+		std::cout << "Gestartete Roboter: ";
+		for(auto it = args.begin(); it != args.end(); ++it) {
+			std::cout << it[0];
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
 	
 	/* Datei einlesen */
 	std::ifstream fileStream(argv[1]);

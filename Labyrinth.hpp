@@ -31,6 +31,7 @@ public:
 	int getHeight();
 private:
 	int locateStartEnd();
+	int bothFound(int pos);
 };
 
 #endif

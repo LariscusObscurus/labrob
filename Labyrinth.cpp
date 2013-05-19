@@ -5,7 +5,7 @@
 #include <iterator>
 
 Labyrinth::Labyrinth(std::ifstream& fileStream)
-	: mBuffer(0), mWidth(0), mHeight(0)
+	: mWidth(0), mHeight(0), mEntry(-1), mExit(-1)
 {
 	mBuffer = std::vector<char>(0);
 	mBuffer.insert(mBuffer.begin(),
@@ -74,18 +74,36 @@ int Labyrinth::getHeight()
 
 int Labyrinth::locateStartEnd()
 {
-	for (int i = 0; i <= (int) mBuffer.size(); i++) {
-		if(mBuffer[i] != '#') {
-			if((i < mWidth) && (mBuffer[i] != '#')) {
-				mEntry = i;
-			} else if((i % mWidth) == 0) {
-				mEntry = i;
-			} else if (i > ((mWidth - 1) * mHeight)) {
-				mExit = i;
-			} else if ((i % mWidth) == 1) {
-				mExit = i;
-			}
+	for (int i = 0; i <= mWidth - 1; i++) {
+		if((mBuffer[i] != '#') && (bothFound(i) == 0)) {
+			return 0;
+		}
+	}
+	for (int i = 2; i <= mHeight; i++) {
+		if((mBuffer[i * mWidth - 1] != '#') && (bothFound(i * mWidth - 1) == 0)) {
+				return 0;
+		}
+	}
+	for (int i = (int) mBuffer.size() ; i >= mWidth * (mHeight -1); i--) {
+		if((mBuffer[i] != '#') && (bothFound(i) == 0)) {
+			return 0;
+		}
+	}
+	for (int i = (mHeight -1); i >= 1 ; i--) {
+		if((mBuffer[i * mWidth] != '#') && (bothFound(i * mWidth ) == 0)) {
+			return 0;
 		}
 	}
 	return 0;
+}
+
+int Labyrinth::bothFound(int pos)
+{
+	if(mEntry == -1) {
+		mEntry = pos;
+	} else if(mExit == -1){
+		mExit = pos;
+		return 0;
+	}
+	return -1;
 }
