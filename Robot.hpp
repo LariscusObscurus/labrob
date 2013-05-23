@@ -14,7 +14,8 @@ class Robot
 	int ypos;
 public:
 	Robot (int x, int y);
-	~Robot ();
+	virtual ~Robot ();
+
 	int move(dir_t dir);
 	int move(int x, int y);
 private:
