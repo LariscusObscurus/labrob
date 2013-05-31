@@ -1,7 +1,8 @@
 #include "Robot.hpp" 
 #include "Labyrinth.hpp"
 
-Robot::Robot(int x, int y, Labyrinth *labIn) : mXpos(x), mYpos(y), mLab(labIn)
+Robot::Robot(int x, int y, Labyrinth *labIn) 
+	: mXpos(x), mYpos(y), mLab(labIn), mView(S)
 {
 }
 

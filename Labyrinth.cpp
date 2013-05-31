@@ -26,6 +26,8 @@ Labyrinth::Labyrinth(std::ifstream& fileStream)
 	mHeight = (int) mBuffer.size() / mWidth;
 	fileStream.close();
 	locateStartEnd();
+	std::cout << "Exit: " << mExit << std::endl;
+	std::cout << "Entry: " << mEntry << std::endl;
 }
 
 Labyrinth::~Labyrinth()
@@ -43,6 +45,9 @@ bool Labyrinth::isfree(int x, int y)
 {
 	std::lock_guard<std::mutex> lock1(mMutexBuffer);
 	std::lock_guard<std::mutex> lock2(mMutexWidth);
+	if((y > mHeight) || (x > mWidth)){
+		return 0;
+	}
 	return (mBuffer[y * mWidth + x] != '#');
 }
 
@@ -115,7 +120,7 @@ int Labyrinth::locateStartEnd()
 				return 0;
 		}
 	}
-	for (int i = (int) mBuffer.size() ; i >= mWidth * (mHeight -1); i--) {
+	for (int i = (int) mBuffer.size() - 1 ; i >=((int)mBuffer.size() -1 - mWidth); --i) {
 		if((mBuffer[i] != '#') && (bothFound(i) == 0)) {
 			return 0;
 		}

@@ -11,20 +11,20 @@ RobotLeftHand::~RobotLeftHand()
 
 int RobotLeftHand::start()
 {
-	mView = S;
 	mCount = 0;
 	while(!isFinish()){
 		turnLeft();
 		algo();
 		mCount++;
 	}
+	std::cout << "Success! Steps: "<< mCount << std::endl;
 	return 1;
 }
 
 void RobotLeftHand::algo()
 {
 	for(int i = 0; i < 4; i++) {
-		if(!move(mView)) {
+		if(!move(getView())) {
 			turnRight();
 		} else {
 			return;
