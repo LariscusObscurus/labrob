@@ -1,12 +1,12 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-enum dir_t {
+enum DIR {
 	N,
 	E,
 	S,
 	W
-};
+} dir_t;
 
 class Robot
 {
