@@ -58,3 +58,39 @@ bool Robot::isFinish() const
 	Labyrinth::Position pos = mLab->getExit();
 	return (pos.x == mXpos && pos.y == mYpos);
 }
+
+void Robot::turnRight()
+{
+	switch(mView){
+	case N:
+		mView = E;
+		break;
+	case E:
+		mView = S;
+		break;
+	case S:
+		mView = W;
+		break;
+	case W:
+		mView = N;
+		break;
+	}
+}
+
+void Robot::turnLeft()
+{
+	switch(mView){
+	case N:
+		mView = W;
+		break;
+	case E:
+		mView = N;
+		break;
+	case S:
+		mView = E;
+		break;
+	case W:
+		mView = S;
+		break;
+	}
+}

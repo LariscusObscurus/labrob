@@ -11,7 +11,5 @@ public:
 private:
 	DIR mView;
 	int mCount;
-	void turnRight();
-	void turnLeft();
 	void algo();
 };
