@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 	}
 
 	Labyrinth * lab = new Labyrinth(fileStream);
-
+	lab->display();
 	Labyrinth::Position start = lab->getEntry();
 	std::cout << start.x << std::endl;
 	std::cout << start.y << std::endl;

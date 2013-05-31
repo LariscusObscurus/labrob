@@ -15,10 +15,14 @@ int RobotLeftHand::start()
 	mView = S;
 	mCount = 0;
 	while(!isFinish()){
+	//for(int i= 0; i<10; i++){
 		turnLeft();
 		algo();
 		mCount++;
+		std::cout << "X: " << getX() << std::endl; 
+		std::cout << "Y: " <<getY() << std::endl;
 	}
+
 	std::cout << "Success! " << mCount << std::endl;
 	return 1;
 }
