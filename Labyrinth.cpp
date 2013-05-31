@@ -39,18 +39,18 @@ Labyrinth::~Labyrinth()
  * 	true -> Feld ist frei
  */
 
-bool Labyrinth::isfree(int x, int y) const
+bool Labyrinth::isfree(int x, int y)
 {
-	std::lock_guard<std::mutex> lock(mMutexBuffer);
-	std::lock_guard<std::mutex> lock(mMutexWidth);
+	std::lock_guard<std::mutex> lock1(mMutexBuffer);
+	std::lock_guard<std::mutex> lock2(mMutexWidth);
 	return (mBuffer[y * mWidth + x] != '#');
 }
 
 /* Ausgabe des Labyrinths */
-void Labyrinth::display() const
+void Labyrinth::display()
 {
-	std::lock_guard<std::mutex> lock(mMutexBuffer);
-	std::lock_guard<std::mutex> lock(mMutexWidth);
+	std::lock_guard<std::mutex> lock1(mMutexBuffer);
+	std::lock_guard<std::mutex> lock2(mMutexWidth);
 	int size = (int) mBuffer.size();
 	for (int i = 0; i <= size; i++) {
 		if(i == size) {
@@ -63,40 +63,40 @@ void Labyrinth::display() const
 	}
 }
 
-std::vector<char> Labyrinth::getBuffer() const
+std::vector<char> Labyrinth::getBuffer()
 {
 	std::lock_guard<std::mutex> lock(mMutexBuffer);
 	return mBuffer;
 }
 
-int Labyrinth::getWidth() const
+int Labyrinth::getWidth()
 {
 	std::lock_guard<std::mutex> lock(mMutexWidth);
 	return mWidth;
 }
 
-int Labyrinth::getHeight() const
+int Labyrinth::getHeight()
 {
 	std::lock_guard<std::mutex> lock(mMutexHeight);
 	return mHeight;
 }
 
-Labyrinth::Position Labyrinth::getEntry() const
+Labyrinth::Position Labyrinth::getEntry()
 {
-	std::lock_guard<std::mutex> lock(mMutexHeight);
-	std::lock_guard<std::mutex> lock(mMutexWidth);
-	std::lock_guard<std::mutex> lock(mMutexEntry);
+	std::lock_guard<std::mutex> lock1(mMutexHeight);
+	std::lock_guard<std::mutex> lock2(mMutexWidth);
+	std::lock_guard<std::mutex> lock3(mMutexEntry);
 	Position result;
 	result.x = mEntry % mWidth;
 	result.y = mEntry / mWidth;
 	return result;
 }
 
-Labyrinth::Position Labyrinth::getExit() const
+Labyrinth::Position Labyrinth::getExit()
 {
-	std::lock_guard<std::mutex> lock(mMutexHeight);
-	std::lock_guard<std::mutex> lock(mMutexWidth);
-	std::lock_guard<std::mutex> lock(mMutexExit);
+	std::lock_guard<std::mutex> lock1(mMutexHeight);
+	std::lock_guard<std::mutex> lock2(mMutexWidth);
+	std::lock_guard<std::mutex> lock3(mMutexExit);
 	Position result;
 	result.x = mExit % mWidth;
 	result.y = mExit / mWidth;
