@@ -72,6 +72,16 @@ int Labyrinth::getHeight()
 	return mHeight;
 }
 
+int Labyrinth::getEntry()
+{
+	return mEntry;
+}
+
+int Labyrinth::getExit()
+{
+	return mExit;
+}
+
 int Labyrinth::locateStartEnd()
 {
 	for (int i = 0; i <= mWidth - 1; i++) {

@@ -25,10 +25,11 @@ public:
 /* Ausgabe des Labyrinths */
 	void display();
 
-	int newRobot();
 	std::vector<char> getBuffer();
 	int getWidth();
 	int getHeight();
+	int getEntry();
+	int getExit();
 private:
 	int locateStartEnd();
 	int bothFound(int pos);
