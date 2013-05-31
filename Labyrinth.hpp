@@ -21,14 +21,17 @@ public:
 		int y;
 	};
 
-/* Ist die angegebene Position frei? 
- * Return Werte:
- * 	false -> Feld ist nicht frei
- * 	true -> Feld ist frei
- */
+	/**
+	 * Ist die angegebene Position frei? 
+	 * @param x position entlang der x-achse
+	 * @param y position entlang der y-achse
+	 * @return 'true' wenn das Feld frei ist
+	 */
 	bool isfree(int x, int y) const;
 
-/* Ausgabe des Labyrinths */
+	/**
+	 * Ausgabe des Labyrinths
+	 */
 	void display() const;
 
 	std::vector<char> getBuffer() const;
