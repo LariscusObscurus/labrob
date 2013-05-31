@@ -19,9 +19,9 @@ public:
 	Robot (int x, int y, Labyrinth * labIn);
 	virtual ~Robot ();
 	virtual int start() = 0;
-private:
-	int move(dir_t dir);
-	int move(int x, int y);
+protected:
+	virtual int move(dir_t dir);
+	virtual int move(int x, int y);
 	
 };
 #endif 
