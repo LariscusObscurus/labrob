@@ -43,3 +43,9 @@ int Robot::move(int x, int y)
 	}
 
 }
+
+bool Robot::isFinish() const
+{
+	Labyrinth::Position pos = mLab->getExit();
+	return (pos.x == mXpos && pos.y == mYpos);
+}

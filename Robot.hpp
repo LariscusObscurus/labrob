@@ -23,6 +23,7 @@ public:
 protected:
 	virtual int move(dir_t dir);
 	virtual int move(int x, int y);
+	bool isFinish() const;
 	
 	int getX() const { return mXpos; }
 	int getY() const { return mYpos; }
