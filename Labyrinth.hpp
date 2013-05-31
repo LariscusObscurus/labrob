@@ -15,6 +15,11 @@ class Labyrinth
 public:
 	Labyrinth(std::ifstream& fileStream);
 	~Labyrinth();
+	
+	struct Position {
+		int x;
+		int y;
+	};
 
 /* Ist die angegebene Position frei? 
  * Return Werte:
@@ -29,8 +34,8 @@ public:
 	std::vector<char> getBuffer() const;
 	int getWidth() const;
 	int getHeight() const;
-	int getEntry() const;
-	int getExit() const;
+	Position getEntry() const;
+	Position getExit() const;
 private:
 	int locateStartEnd();
 	int bothFound(int pos);
