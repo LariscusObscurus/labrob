@@ -23,5 +23,8 @@ protected:
 	virtual int move(dir_t dir);
 	virtual int move(int x, int y);
 	
+	int getX() { return mXpos; }
+	int getY() { return mYpos; }
+	Labyrinth* getLabyrinth() { return mLab; }
 };
 #endif 
