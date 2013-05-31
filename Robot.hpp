@@ -20,7 +20,6 @@ public:
 	Robot (int x, int y, Labyrinth * labIn);
 	virtual ~Robot ();
 	virtual int start() = 0;
-	virtual bool update() = 0;
 protected:
 	virtual bool move(dir_t dir);
 	virtual int move(int x, int y);

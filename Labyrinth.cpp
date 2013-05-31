@@ -41,12 +41,14 @@ Labyrinth::~Labyrinth()
 
 bool Labyrinth::isfree(int x, int y) const
 {
+	std::lock_guard<std::mutex> lock(mMutex);
 	return (mBuffer[y * mWidth + x] != '#');
 }
 
 /* Ausgabe des Labyrinths */
 void Labyrinth::display() const
 {
+	std::lock_guard<std::mutex> lock(mMutex);
 	int size = (int) mBuffer.size();
 	for (int i = 0; i <= size; i++) {
 		if(i == size) {

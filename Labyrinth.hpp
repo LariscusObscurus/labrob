@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <fstream>
+#include <mutex>
+
 class Robot;
 
 class Labyrinth
@@ -12,6 +14,7 @@ class Labyrinth
 	int mEntry;
 	int mExit;
 	std::vector<char> mBuffer;
+	std::mutex mMutex;
 public:
 	Labyrinth(std::ifstream& fileStream);
 	~Labyrinth();

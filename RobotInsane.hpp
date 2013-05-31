@@ -14,7 +14,6 @@ public:
 	virtual ~RobotInsane ();
 
 	virtual int start();
-	virtual bool update();
 private:
 	/* data */
 };

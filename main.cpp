@@ -67,22 +67,6 @@ int main(int argc, char *argv[])
 	}
 
 	Labyrinth * lab = new Labyrinth(fileStream);
-	lab->display();
-	
-	while (true) {
-		bool result = true;
-		for (Robot* it : robots) {
-			if (result) {
-				result = it->update();
-			} else {
-				it->update();
-			}
-		}
-		
-		if (result) {
-			break;
-		}
-	}
 
 	delete lab;
 	return 0;
