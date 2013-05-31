@@ -16,7 +16,7 @@ int RobotInsane::start()
 	return 0;
 }
 
-bool RobotInsane::update()
+std::list<DIR> RobotInsane::getFreeDirections()
 {
-	return isFinish();
+	return std::list<DIR>(0);
 }

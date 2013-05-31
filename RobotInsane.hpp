@@ -15,5 +15,5 @@ public:
 
 	virtual int start();
 private:
-	/* data */
+	std::list<DIR> getFreeDirections();
 };
