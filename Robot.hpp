@@ -3,12 +3,12 @@
 
 class Labyrinth;
 
-enum dir_t {
+typedef enum DIR {
 	N,
 	E,
 	S,
 	W
-};
+} dir_t;
 
 class Robot
 {
