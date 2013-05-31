@@ -2,13 +2,16 @@
 
 class RobotLeftHand : public virtual Robot
 {
+
 public:
 	RobotLeftHand (int x, int y, Labyrinth* lab);
 	virtual ~RobotLeftHand ();
 	virtual int start();
 
 private:
-	void turnRight(DIR& view);
-	void turnLeft(DIR& view)
-	bool leftWall();
+	DIR mView;
+	int mCount;
+	void turnRight();
+	void turnLeft();
+	void algo();
 };
