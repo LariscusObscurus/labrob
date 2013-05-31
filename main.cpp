@@ -68,6 +68,12 @@ int main(int argc, char *argv[])
 
 	Labyrinth * lab = new Labyrinth(fileStream);
 
+	Labyrinth::Position start = lab->getEntry();
+	std::cout << start.x << std::endl;
+	std::cout << start.y << std::endl;
+	RobotLeftHand robl = RobotLeftHand(start.x, start.y, lab);
+	robl.start();
+
 	delete lab;
 	return 0;
 }

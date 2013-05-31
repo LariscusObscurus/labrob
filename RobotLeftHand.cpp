@@ -1,54 +1,72 @@
 #include "RobotLeftHand.hpp"
+#include <iostream>
 
 RobotLeftHand::RobotLeftHand(int x, int y, Labyrinth* lab) : Robot(x, y, lab)
+{
+	
+}
+
+RobotLeftHand::~RobotLeftHand()
 {
 }
 
 int RobotLeftHand::start()
 {
-	DIR view = S;
+	mView = S;
+	mCount = 0;
 	while(!isFinish()){
-		
+		turnLeft();
+		algo();
+		mCount++;
 	}
+	std::cout << "Success! " << mCount << std::endl;
+	return 1;
 }
 
-void RobotLeftHand::turnRight(DIR& view)
+void RobotLeftHand::algo()
 {
-	switch(view){
+	for(int i = 0; i < 4; i++) {
+		if(!move(mView)) {
+			turnRight();
+		} else {
+			return;
+		}
+	}
+	std::cout << "???" << std::endl;
+}
+
+void RobotLeftHand::turnRight()
+{
+	switch(mView){
 	case N:
-		view = E;
+		mView = E;
 		break;
 	case E:
-		view = S;
+		mView = S;
 		break;
 	case S:
-		view = W;
+		mView = W;
 		break;
 	case W:
-		view = N;
+		mView = N;
 		break;
 	}
 }
 
-void RobotLeftHand::turnLeft(DIR& view)
+void RobotLeftHand::turnLeft()
 {
-	switch(view){
+	switch(mView){
 	case N:
-		view = W;
+		mView = W;
 		break;
 	case E:
-		view = N;
+		mView = N;
 		break;
 	case S:
-		view = E;
+		mView = E;
 		break;
 	case W:
-		view = S;
+		mView = S;
 		break;
 	}
-}
-
-bool RobotLeftHand::leftWall()
-{
-	
 }
