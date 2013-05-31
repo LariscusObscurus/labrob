@@ -1,4 +1,5 @@
 #include "Labyrinth.hpp"
+#include "Robot.hpp"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -38,16 +39,17 @@ Labyrinth::~Labyrinth()
  * 	true -> Feld ist frei
  */
 
-bool Labyrinth::isfree(int x, int y)
+bool Labyrinth::isfree(int x, int y) const
 {
 	return (mBuffer[y * mWidth + x] != '#');
 }
 
 /* Ausgabe des Labyrinths */
-void Labyrinth::display()
+void Labyrinth::display() const
 {
-	for (int i = 0; i <= (int) mBuffer.size(); i++) {
-		if(i == (int) mBuffer.size()) {
+	int size = (int) mBuffer.size();
+	for (int i = 0; i <= size; i++) {
+		if(i == size) {
 			std::cout << std::endl;
 		} else if(((i % mWidth) == 0) ) {
 			std::cout << std::endl << mBuffer[i];
@@ -57,27 +59,27 @@ void Labyrinth::display()
 	}
 }
 
-std::vector<char> Labyrinth::getBuffer()
+std::vector<char> Labyrinth::getBuffer() const
 {
 	return mBuffer;
 }
 
-int Labyrinth::getWidth()
+int Labyrinth::getWidth() const
 {
 	return mWidth;
 }
 
-int Labyrinth::getHeight()
+int Labyrinth::getHeight() const
 {
 	return mHeight;
 }
 
-int Labyrinth::getEntry()
+int Labyrinth::getEntry() const
 {
 	return mEntry;
 }
 
-int Labyrinth::getExit()
+int Labyrinth::getExit() const
 {
 	return mExit;
 }

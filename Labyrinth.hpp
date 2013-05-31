@@ -3,14 +3,15 @@
 
 #include <vector>
 #include <fstream>
+class Robot;
 
 class Labyrinth
 {
-	std::vector<char> mBuffer;
 	int mWidth;
 	int mHeight;
 	int mEntry;
 	int mExit;
+	std::vector<char> mBuffer;
 public:
 	Labyrinth(std::ifstream& fileStream);
 	~Labyrinth();
@@ -20,16 +21,16 @@ public:
  * 	false -> Feld ist nicht frei
  * 	true -> Feld ist frei
  */
-	bool isfree(int x, int y);
+	bool isfree(int x, int y) const;
 
 /* Ausgabe des Labyrinths */
-	void display();
+	void display() const;
 
-	std::vector<char> getBuffer();
-	int getWidth();
-	int getHeight();
-	int getEntry();
-	int getExit();
+	std::vector<char> getBuffer() const;
+	int getWidth() const;
+	int getHeight() const;
+	int getEntry() const;
+	int getExit() const;
 private:
 	int locateStartEnd();
 	int bothFound(int pos);
