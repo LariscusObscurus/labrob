@@ -74,14 +74,20 @@ int Labyrinth::getHeight() const
 	return mHeight;
 }
 
-int Labyrinth::getEntry() const
+Labyrinth::Position Labyrinth::getEntry() const
 {
-	return mEntry;
+	Position result;
+	result.x = mEntry % mWidth;
+	result.y = mEntry / mWidth;
+	return result;
 }
 
-int Labyrinth::getExit() const
+Labyrinth::Position Labyrinth::getExit() const
 {
-	return mExit;
+	Position result;
+	result.x = mExit % mWidth;
+	result.y = mExit / mWidth;
+	return result;
 }
 
 int Labyrinth::locateStartEnd()
