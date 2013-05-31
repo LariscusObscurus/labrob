@@ -29,6 +29,6 @@ protected:
 	int getY() const { return mYpos; }
 	const Labyrinth* getLabyrinth() const { return mLab; }
 	DIR getView() const { return mView; }
-	void setView(DIR value); { mView = value; }
+	void setView(DIR value) { mView = value; }
 };
 #endif 
