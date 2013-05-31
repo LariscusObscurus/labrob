@@ -12,3 +12,8 @@ int RobotInsane::start()
 {
 	return 0;
 }
+
+bool RobotInsane::update()
+{
+	return isFinish();
+}
