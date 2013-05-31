@@ -10,6 +10,9 @@ RobotInsane::~RobotInsane()
 
 int RobotInsane::start()
 {
+	while (!isFinish()) {
+		
+	}
 	return 0;
 }
 

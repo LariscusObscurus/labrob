@@ -27,7 +27,7 @@ protected:
 	
 	int getX() const { return mXpos; }
 	int getY() const { return mYpos; }
-	const Labyrinth* getLabyrinth() const { return mLab; }
+	Labyrinth* getLabyrinth() { return mLab; }
 	DIR getView() const { return mView; }
 	void setView(DIR value) { mView = value; }
 };

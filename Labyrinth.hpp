@@ -14,7 +14,11 @@ class Labyrinth
 	int mEntry;
 	int mExit;
 	std::vector<char> mBuffer;
-	std::mutex mMutex;
+	std::mutex mMutexBuffer;
+	std::mutex mMutexWidth;
+	std::mutex mMutexHeight;
+	std::mutex mMutexEntry;
+	std::mutex mMutexExit;
 public:
 	Labyrinth(std::ifstream& fileStream);
 	~Labyrinth();
@@ -30,18 +34,18 @@ public:
 	 * @param y position entlang der y-achse
 	 * @return 'true' wenn das Feld frei ist
 	 */
-	bool isfree(int x, int y) const;
+	bool isfree(int x, int y);
 
 	/**
 	 * Ausgabe des Labyrinths
 	 */
-	void display() const;
+	void display();
 
-	std::vector<char> getBuffer() const;
-	int getWidth() const;
-	int getHeight() const;
-	Position getEntry() const;
-	Position getExit() const;
+	std::vector<char> getBuffer();
+	int getWidth();
+	int getHeight();
+	Position getEntry();
+	Position getExit();
 private:
 	int locateStartEnd();
 	int bothFound(int pos);

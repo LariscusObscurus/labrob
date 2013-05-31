@@ -41,14 +41,16 @@ Labyrinth::~Labyrinth()
 
 bool Labyrinth::isfree(int x, int y) const
 {
-	std::lock_guard<std::mutex> lock(mMutex);
+	std::lock_guard<std::mutex> lock(mMutexBuffer);
+	std::lock_guard<std::mutex> lock(mMutexWidth);
 	return (mBuffer[y * mWidth + x] != '#');
 }
 
 /* Ausgabe des Labyrinths */
 void Labyrinth::display() const
 {
-	std::lock_guard<std::mutex> lock(mMutex);
+	std::lock_guard<std::mutex> lock(mMutexBuffer);
+	std::lock_guard<std::mutex> lock(mMutexWidth);
 	int size = (int) mBuffer.size();
 	for (int i = 0; i <= size; i++) {
 		if(i == size) {
@@ -63,21 +65,27 @@ void Labyrinth::display() const
 
 std::vector<char> Labyrinth::getBuffer() const
 {
+	std::lock_guard<std::mutex> lock(mMutexBuffer);
 	return mBuffer;
 }
 
 int Labyrinth::getWidth() const
 {
+	std::lock_guard<std::mutex> lock(mMutexWidth);
 	return mWidth;
 }
 
 int Labyrinth::getHeight() const
 {
+	std::lock_guard<std::mutex> lock(mMutexHeight);
 	return mHeight;
 }
 
 Labyrinth::Position Labyrinth::getEntry() const
 {
+	std::lock_guard<std::mutex> lock(mMutexHeight);
+	std::lock_guard<std::mutex> lock(mMutexWidth);
+	std::lock_guard<std::mutex> lock(mMutexEntry);
 	Position result;
 	result.x = mEntry % mWidth;
 	result.y = mEntry / mWidth;
@@ -86,6 +94,9 @@ Labyrinth::Position Labyrinth::getEntry() const
 
 Labyrinth::Position Labyrinth::getExit() const
 {
+	std::lock_guard<std::mutex> lock(mMutexHeight);
+	std::lock_guard<std::mutex> lock(mMutexWidth);
+	std::lock_guard<std::mutex> lock(mMutexExit);
 	Position result;
 	result.x = mExit % mWidth;
 	result.y = mExit / mWidth;
