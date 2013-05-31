@@ -25,6 +25,6 @@ protected:
 	
 	int getX() const { return mXpos; }
 	int getY() const { return mYpos; }
-	Labyrinth* getLabyrinth() const { return mLab; }
+	const Labyrinth* getLabyrinth() const { return mLab; }
 };
 #endif 

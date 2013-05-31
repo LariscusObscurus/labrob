@@ -10,4 +10,5 @@ RobotInsane::~RobotInsane()
 
 int RobotInsane::start()
 {
+	return 0;
 }

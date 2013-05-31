@@ -3,7 +3,11 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <list>
 #include "Labyrinth.hpp"
+#include "RobotInsane.hpp"
+#include "RobotLeftHand.hpp"
+#include "RobotRightHand.hpp"
 
 int getCmdOption(char ** begin, char ** end, const std::string& option, std::vector<std::string>& out)
 {
@@ -26,6 +30,7 @@ bool cmdOptionExists(char ** begin, char ** end, const std::string& option)
 int main(int argc, char *argv[])
 {
 	std::vector<std::string> args(0);
+	std::list<Robot*> robots;
 
 	if(argc <= 1) {
 		std::cout 

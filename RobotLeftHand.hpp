@@ -3,7 +3,7 @@
 class RobotLeftHand : public virtual Robot
 {
 public:
-	RobotLeftHand (int x, int y, Labyrinth* lab;
+	RobotLeftHand (int x, int y, Labyrinth* lab);
 	virtual ~RobotLeftHand ();
 
 private:
