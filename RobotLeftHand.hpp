@@ -8,5 +8,7 @@ public:
 	virtual int start();
 
 private:
-	/* data */
+	void turnRight(DIR& view);
+	void turnLeft(DIR& view)
+	bool leftWall();
 };

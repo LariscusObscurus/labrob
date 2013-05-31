@@ -21,7 +21,7 @@ public:
 	virtual ~Robot ();
 	virtual int start() = 0;
 protected:
-	virtual int move(dir_t dir);
+	virtual bool move(dir_t dir);
 	virtual int move(int x, int y);
 	bool isFinish() const;
 	

@@ -9,27 +9,36 @@ Robot::~Robot()
 {
 }
 
-int Robot::move(dir_t dir)
+bool Robot::move(dir_t dir)
 {
+	bool result = 1;
 	switch(dir){
 	case N:
 		if(move(mXpos - 1, mYpos)) {
+		} else {
+			result = 0;
 		}
 		break;
 	case E:
 		if(move(mXpos, mYpos + 1)) {
+		} else {
+			result = 0;
 		}
 		break;
 	case S:
 		if(move(mXpos + 1, mYpos)) {
+		} else {
+			result = 0;
 		}
 		break;
 	case W:
 		if(move(mXpos, mYpos - 1)) {
+		} else {
+			result = 0;
 		}
 		break;
 	}
-	return 0;
+	return result;
 }
 
 int Robot::move(int x, int y)
