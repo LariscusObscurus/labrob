@@ -22,7 +22,7 @@ public:
 	virtual int start() = 0;
 	virtual bool update() = 0;
 protected:
-	virtual int move(dir_t dir);
+	virtual bool move(dir_t dir);
 	virtual int move(int x, int y);
 	virtual bool isFinish() const;
 	
