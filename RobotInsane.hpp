@@ -10,7 +10,6 @@ class RobotInsane : public virtual Robot
 		std::map<DIR, int> direction;
 	};
 	std::list<Vertex> mVertices;
-	DIR mCurrentDir;
 public:
 	RobotInsane (int x, int y, Labyrinth* lab);
 	virtual ~RobotInsane ();
@@ -21,5 +20,6 @@ private:
 	DIR getNextDirection(const std::list<DIR>& dir);
 	DIR checkMarkedDirection(const std::list<DIR>& dir, std::map<DIR, int>& visited);
 	void updateVertex(int x, int y, DIR dir);
-	void addVertex(int x, int y, std::list<DIR>& directions);
+	Vertex& addVertex(int x, int y, std::list<DIR>& directions);
+	DIR opposite();
 };

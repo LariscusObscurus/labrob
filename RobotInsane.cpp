@@ -19,18 +19,16 @@ int RobotInsane::start()
 		std::list<DIR> directions = getFreeDirections();
 		DIR dir = NONE;
 		
-		addVertex(directions);
-		
 		if (!directions.empty() && directions.size() > 2) {
 			dir = getNextDirection(directions);
 			updateVertex(getX(), getY(), dir);
 			setView(dir);
 			move(getView());
 		} else if (!directions.empty() && directions.size() == 2) {
-			updateVertex(getX(), getY(), directions.front());
+// 			updateVertex(getX(), getY(), directions.front());
 			move(getView());
 		} else if (!directions.empty() && directions.size() == 1) {
-			updateVertex(getX(), getY(), directions.front());
+// 			updateVertex(getX(), getY(), directions.front());
 			move(directions.front());
 		} else {
 			result = CRITICAL_ERROR;
@@ -64,10 +62,45 @@ std::list<DIR> RobotInsane::getFreeDirections()
 
 DIR RobotInsane::getNextDirection(const std::list<DIR>& freeDir)
 {
+	auto it = find_if(mVertices.begin(), mVertices.end(), [=](const Vertex& v){
+		return (getX() == v.x && getY() == v.y);
+	});
+	
+	if (it != mVertices.end()) {
+		return checkMarkedDirection(freeDir, it->direction);
+	} else {
+		Vertex& v = addVertex(getX(), getY(), freeDir);
+		v.direction[freeDir.front()] += 1;
+		return freeDir.front();
+	}
 }
 
 DIR RobotInsane::checkMarkedDirection(const std::list<DIR>& freeDir, std::map<DIR, int>& visited)
 {
+	DIR result = NONE;
+	std::pair<DIR, int> highest(NONE, 0);
+	std::pair<DIR, int> lowest(NONE, 2);
+	
+	for (auto& it : visited) {
+		if (!it.second) {
+			it.second += 1;
+			return it.first;
+		} else {
+			if (it.second > highest.second) {
+				highest = it;
+			}
+			if (it.second < lowest.second) {
+				lowest = it;
+			}
+		}
+	}
+	
+	if (highest.second == lowest.second && highest.second == 2) {
+		return opposite();
+	} else {
+		visited[lowest.first] += 1;
+		return lowest.first;
+	}
 }
 
 void RobotInsane::updateVertex(int x, int y, DIR dir)
@@ -82,19 +115,34 @@ void RobotInsane::updateVertex(int x, int y, DIR dir)
 	}
 }
 
-void RobotInsane::addVertex(int x, int y, std::list<DIR>& directions)
+Vertex& RobotInsane::addVertex(int x, int y, std::list<DIR>& directions)
 {
-	auto it = std::find_if(mVertices.begin(), mVertices.end(), [=](const Vertex& vertex){
-		return (vertex.x == x && vertex.y == y);
-	});
+	Vertex vertex = {x, y, std::map<DIR, int>(0)};
+	auto& map = vertex.direction;
+	mVertices.push_back(vertex);
 	
-	if (it == mVertices.end()) {
-		Vertex vertex = {x, y, std::map<DIR, int>(0)};
-		auto& map = vertex.direction;
-		mVertices.push_back(vertex);
-		
-		for (DIR it : directions) {
-			map[it] = 0;
-		}
+	for (DIR it : directions) {
+		map[it] = 0;
 	}
+	
+	return mVertices.back();
+}
+
+DIR RobotInsane::opposite()
+{
+	switch (getView()) {
+	case N:
+		setView(S);
+		return S;
+	case E:
+		setView(W);
+		return W;
+	case W:
+		setView(E);
+		return E;
+	case S:
+		setView(N);
+		return N;
+	}
+	return NONE;
 }
