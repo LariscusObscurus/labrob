@@ -9,7 +9,8 @@
 #include "RobotLeftHand.hpp"
 #include "RobotRightHand.hpp"
 
-int getCmdOption(char ** begin, char ** end, const std::string& option, std::vector<std::string>& out)
+int getCmdOption(char ** begin, char ** end, const std::string& option, 
+		std::vector<std::string>& out)
 {
 	int result = -1;
 	for (char ** it = begin; it != end; ++it) {
@@ -65,22 +66,27 @@ int main(int argc, char *argv[])
 	
 	/* Roboter erstellen */
 	if(args.size() > 0) {
-		std::cout << "Gestartete Roboter: ";
 		for(auto it = args.begin(); it != args.end(); ++it) {
-			std::cout << it[0];
 			if(it[0] == "-t1") {
-				Robot * robL = new RobotLeftHand(start.x, start.y, lab);
+				Robot * robL = new RobotLeftHand(
+							start.x, start.y, lab);
 				robots.push_back(robL);
+				std::cout 
+				<< "-t1 gestartet." << std::endl;
 			} else if(it[0] == "-t2") {
-				Robot * robR = new RobotRightHand(start.x, start.y, lab);
+				Robot * robR = new RobotRightHand(
+							start.x, start.y, lab);
 				robots.push_back(robR);
+				std::cout 
+				<< "-t2 gestartet." << std::endl;
 			} else if(it[0] == "-t3") {
-				std::cout << "t3 Nicht implementiert" << std::endl;
+				std::cout 
+				<< "-t3 nicht implementiert" << std::endl;
 			} else {
-				std::cerr << "Unknown Robot Type: " << it[0] << std::endl;
+				std::cout << it[0] 
+				<< " unbekannter Roboter Typ" << std::endl;
 			}
 		}
-		std::cout << std::endl;
 	}
 	
 	/* Roboter starten */

@@ -1,4 +1,4 @@
-CC=clang++
+CC=g++
 NAME=labyrinth
 CFLAGS=-Wall -std=c++0x
 LFLAGS=
@@ -8,7 +8,7 @@ else
 CFLAGS+=-g -D_DEBUG=1
 endif
 
-SRC=Labyrinth.cpp main.cpp Robot.cpp RobotLeftHand.cpp
+SRC=Labyrinth.cpp main.cpp Robot.cpp RobotLeftHand.cpp RobotRightHand.cpp
 OBJ=$(SRC:.cpp=.o)
 
 all: $(NAME)
