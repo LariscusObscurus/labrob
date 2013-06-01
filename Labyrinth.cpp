@@ -43,7 +43,7 @@ bool Labyrinth::isfree(int x, int y)
 {
 	std::lock_guard<std::mutex> lock1(mMutexBuffer);
 	std::lock_guard<std::mutex> lock2(mMutexWidth);
-	if((y > mHeight) || (x > mWidth)){
+	if((y >= mHeight) || (x >= mWidth) || (y < 0) || (x < 0)){
 		return 0;
 	}
 	return (mBuffer[y * mWidth + x] != '#');
