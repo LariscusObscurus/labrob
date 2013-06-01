@@ -16,6 +16,7 @@ int RobotLeftHand::start()
 		turnLeft();
 		algo();
 		mCount++;
+		savePos();
 	}
 	return mCount;
 }

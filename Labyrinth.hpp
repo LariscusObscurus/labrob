@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <mutex>
+#include <list>
 
 class Robot;
 
@@ -35,11 +36,11 @@ public:
 	 * @return 'true' wenn das Feld frei ist
 	 */
 	bool isfree(int x, int y);
-
+	void showLabyrinth();
 	/**
 	 * Ausgabe des Labyrinths
 	 */
-	void display();
+	void plotPath(std::list<Position> robPath);
 
 	std::vector<char> getBuffer();
 	int getWidth();
@@ -47,6 +48,7 @@ public:
 	Position getEntry();
 	Position getExit();
 private:
+	void display(std::vector<char> labyrinth);
 	int locateStartEnd();
 	int bothFound(int pos);
 };

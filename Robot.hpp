@@ -2,6 +2,7 @@
 #define ROBOT_H
 
 #include <string>
+#include <list>
 
 class Labyrinth;
 
@@ -18,22 +19,28 @@ typedef enum DIR {
 
 class Robot
 {
-	int mXpos;
-	int mYpos;
+	struct Position{
+		int x;
+		int y;
+	} mPos;
 	Labyrinth * mLab;
 	DIR mView;
+	std::list<Position> mPath;
+
 public:
 	Robot (int x, int y, Labyrinth * labIn);
 	virtual ~Robot ();
 	virtual int start() = 0;
 	virtual std::string getName() = 0;
+	virtual void showPath();
 protected:
+	virtual void savePos();
 	virtual bool move(dir_t dir);
 	virtual int move(int x, int y);
 	virtual bool isFinish() const;
 	
-	int getX() const { return mXpos; }
-	int getY() const { return mYpos; }
+	int getX() const { return mPos.x; }
+	int getY() const { return mPos.y; }
 	Labyrinth* getLabyrinth() { return mLab; }
 	DIR getView() const { return mView; }
 	void setView(DIR value) { mView = value; }

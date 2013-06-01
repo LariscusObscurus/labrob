@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 	
 	/* Labyrinth erstellen */
 	Labyrinth * lab = new Labyrinth(fileStream);
-	lab->display();
+	lab->showLabyrinth();
 	Labyrinth::Position start = lab->getEntry();
 	
 	/* Roboter erstellen */

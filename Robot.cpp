@@ -2,8 +2,10 @@
 #include "Labyrinth.hpp"
 
 Robot::Robot(int x, int y, Labyrinth *labIn) 
-	: mXpos(x), mYpos(y), mLab(labIn), mView(S)
+	: mLab(labIn), mView(S)
 {
+	mPos.x = x;
+	mPos.y = y;
 }
 
 Robot::~Robot()
@@ -15,25 +17,25 @@ bool Robot::move(dir_t dir)
 	bool result = 1;
 	switch(dir){
 	case N:
-		if(move(mXpos, mYpos - 1)) {
+		if(move(mPos.x, mPos.y - 1)) {
 		} else {
 			result = 0;
 		}
 		break;
 	case E:
-		if(move(mXpos + 1, mYpos)) {
+		if(move(mPos.x + 1, mPos.y)) {
 		} else {
 			result = 0;
 		}
 		break;
 	case S:
-		if(move(mXpos, mYpos + 1)) {
+		if(move(mPos.x, mPos.y + 1)) {
 		} else {
 			result = 0;
 		}
 		break;
 	case W:
-		if(move(mXpos - 1, mYpos)) {
+		if(move(mPos.x - 1, mPos.y)) {
 		} else {
 			result = 0;
 		}
@@ -47,8 +49,8 @@ bool Robot::move(dir_t dir)
 int Robot::move(int x, int y)
 {
 	if(mLab->isfree(x, y)) {
-		mXpos = x;
-		mYpos = y;
+		mPos.x = x;
+		mPos.y = y;
 		return 1;
 	} else {
 		return 0;
@@ -59,7 +61,7 @@ int Robot::move(int x, int y)
 bool Robot::isFinish() const
 {
 	Labyrinth::Position pos = mLab->getExit();
-	return (pos.x == mXpos && pos.y == mYpos);
+	return (pos.x == mPos.x && pos.y == mPos.y);
 }
 
 void Robot::turnRight()
@@ -100,4 +102,14 @@ void Robot::turnLeft()
 	default:
 		break;
 	}
+}
+
+void Robot::savePos()
+{
+	mPath.push_back(mPos);
+}
+
+void Robot::showPath()
+{
+	mLab->plotPath(mPath);
 }

@@ -1,5 +1,5 @@
 CC=g++
-NAME=labyrinth
+NAME=labrob
 CFLAGS=-Wall -std=c++0x
 LFLAGS=
 ifdef NDEBUG

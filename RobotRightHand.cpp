@@ -16,6 +16,7 @@ int RobotRightHand::start()
 		turnRight();
 		algo();
 		mCount++;
+		savePos();
 	}
 	return mCount;
 }
