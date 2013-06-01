@@ -34,5 +34,7 @@ protected:
 	Labyrinth* getLabyrinth() { return mLab; }
 	DIR getView() const { return mView; }
 	void setView(DIR value) { mView = value; }
+	void turnRight();
+	void turnLeft();
 };
 #endif 
