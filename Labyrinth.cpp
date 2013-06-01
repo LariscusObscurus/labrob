@@ -64,6 +64,7 @@ void Labyrinth::display(std::vector<char> labyrinth)
 			std::cout << labyrinth[i];
 		}
 	}
+	std::cout << std::endl;
 }
 
 std::vector<char> Labyrinth::getBuffer()

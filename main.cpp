@@ -103,6 +103,7 @@ int main(int argc, char *argv[])
 		robotResult result;
 		result.steps = it->start();
 		result.name = it->getName();
+		it->showPath();
 		stepsPerRobot.push_back(result);
 		delete it;
 	}

@@ -1,6 +1,7 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include "Labyrinth.hpp"
 #include <string>
 #include <list>
 
@@ -19,13 +20,10 @@ typedef enum DIR {
 
 class Robot
 {
-	struct Position{
-		int x;
-		int y;
-	} mPos;
+	Labyrinth::Position mPos;
 	Labyrinth * mLab;
 	DIR mView;
-	std::list<Position> mPath;
+	std::list<Labyrinth::Position> mPath;
 
 public:
 	Robot (int x, int y, Labyrinth * labIn);
