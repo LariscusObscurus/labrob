@@ -52,8 +52,7 @@ bool Labyrinth::isfree(int x, int y)
 /* Ausgabe des Labyrinths */
 void Labyrinth::display(std::vector<char> labyrinth)
 {
-	std::lock_guard<std::mutex> lock1(mMutexBuffer);
-	std::lock_guard<std::mutex> lock2(mMutexWidth);
+	std::lock_guard<std::mutex> lock1(mMutexWidth);
 	int size = (int) labyrinth.size();
 	for (int i = 0; i <= size; i++) {
 		if(i == size) {
@@ -143,6 +142,8 @@ int Labyrinth::bothFound(int pos)
 
 void Labyrinth::plotPath(std::list<Position> robPath)
 {
+	std::lock_guard<std::mutex> lock1(mMutexBuffer);
+	std::lock_guard<std::mutex> lock2(mMutexHeight);
 	std::vector<char> temp = mBuffer;
 	for(auto& it: robPath){
 		temp[it.y * mHeight + it.x] = '*';
@@ -152,5 +153,6 @@ void Labyrinth::plotPath(std::list<Position> robPath)
 
 void Labyrinth::showLabyrinth()
 {
+	std::lock_guard<std::mutex> lock1(mMutexBuffer);
 	display(mBuffer);
 }

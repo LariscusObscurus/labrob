@@ -13,11 +13,12 @@ int RobotLeftHand::start()
 {
 	mCount = 0;
 	while(!isFinish()){
+		savePos();
 		turnLeft();
 		algo();
 		mCount++;
-		savePos();
 	}
+	savePos();
 	return mCount;
 }
 
