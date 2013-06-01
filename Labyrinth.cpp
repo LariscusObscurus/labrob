@@ -83,9 +83,8 @@ int Labyrinth::getHeight()
 
 Labyrinth::Position Labyrinth::getEntry()
 {
-	std::lock_guard<std::mutex> lock1(mMutexHeight);
-	std::lock_guard<std::mutex> lock2(mMutexWidth);
-	std::lock_guard<std::mutex> lock3(mMutexEntry);
+	std::lock_guard<std::mutex> lock1(mMutexWidth);
+	std::lock_guard<std::mutex> lock2(mMutexEntry);
 	Position result;
 	result.x = mEntry % mWidth;
 	result.y = mEntry / mWidth;
@@ -94,9 +93,8 @@ Labyrinth::Position Labyrinth::getEntry()
 
 Labyrinth::Position Labyrinth::getExit()
 {
-	std::lock_guard<std::mutex> lock1(mMutexHeight);
-	std::lock_guard<std::mutex> lock2(mMutexWidth);
-	std::lock_guard<std::mutex> lock3(mMutexExit);
+	std::lock_guard<std::mutex> lock1(mMutexWidth);
+	std::lock_guard<std::mutex> lock2(mMutexExit);
 	Position result;
 	result.x = mExit % mWidth;
 	result.y = mExit / mWidth;

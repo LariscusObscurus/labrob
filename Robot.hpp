@@ -3,7 +3,11 @@
 
 class Labyrinth;
 
+#define CRITICAL_ERROR 0xffffffff
+#define NO_ERROR       0x0
+
 typedef enum DIR {
+	NONE,
 	N,
 	E,
 	S,
