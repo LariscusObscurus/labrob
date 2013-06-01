@@ -8,7 +8,6 @@ public:
 	virtual int start();
 
 private:
-	DIR mView;
 	int mCount;
 	void algo();
 };

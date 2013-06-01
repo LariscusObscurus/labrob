@@ -50,14 +50,6 @@ int main(int argc, char *argv[])
 
 	getCmdOption(argv, argv+argc, "-t", args);
 
-	if(args.size() > 0) {
-		std::cout << "Gestartete Roboter: ";
-		for(auto it = args.begin(); it != args.end(); ++it) {
-			std::cout << it[0];
-		}
-		std::cout << std::endl;
-	}
-	
 	/* Datei einlesen */
 	std::ifstream fileStream(argv[1]);
 	fileStream.unsetf(std::ios_base::skipws);
@@ -65,19 +57,37 @@ int main(int argc, char *argv[])
 		std::cerr << "Could not open file!" << std::endl;
 		return -1;
 	}
-
+	
+	/* Labyrinth erstellen */
 	Labyrinth * lab = new Labyrinth(fileStream);
 	lab->display();
 	Labyrinth::Position start = lab->getEntry();
-	Labyrinth::Position end = lab->getExit();
-	std::cout << start.x << std::endl;
-	std::cout << start.y << std::endl;
-	std::cout << "End" << std::endl;
-	std::cout << end.x << std::endl;
-	std::cout << end.y << std::endl;
-
-	RobotLeftHand robl = RobotLeftHand(start.x, start.y, lab);
-	robl.start();
+	
+	/* Roboter erstellen */
+	if(args.size() > 0) {
+		std::cout << "Gestartete Roboter: ";
+		for(auto it = args.begin(); it != args.end(); ++it) {
+			std::cout << it[0];
+			if(it[0] == "-t1") {
+				Robot * robL = new RobotLeftHand(start.x, start.y, lab);
+				robots.push_back(robL);
+			} else if(it[0] == "-t2") {
+				Robot * robR = new RobotRightHand(start.x, start.y, lab);
+				robots.push_back(robR);
+			} else if(it[0] == "-t3") {
+				std::cout << "t3 Nicht implementiert" << std::endl;
+			} else {
+				std::cerr << "Unknown Robot Type: " << it[0] << std::endl;
+			}
+		}
+		std::cout << std::endl;
+	}
+	
+	/* Roboter starten */
+	for(auto& it : robots) {
+		it->start();
+		delete it;
+	}
 
 	delete lab;
 	return 0;

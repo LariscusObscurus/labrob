@@ -11,7 +11,6 @@ RobotRightHand::~RobotRightHand()
 
 int RobotRightHand::start()
 {
-	mView = S;
 	mCount = 0;
 	while(!isFinish()){
 		turnRight();
@@ -25,7 +24,7 @@ int RobotRightHand::start()
 void RobotRightHand::algo()
 {
 	for(int i = 0; i < 4; i++) {
-		if(!move(mView)) {
+		if(!move(getView())) {
 			turnLeft();
 		} else {
 			return;

@@ -26,8 +26,6 @@ Labyrinth::Labyrinth(std::ifstream& fileStream)
 	mHeight = (int) mBuffer.size() / mWidth;
 	fileStream.close();
 	locateStartEnd();
-	std::cout << "Exit: " << mExit << std::endl;
-	std::cout << "Entry: " << mEntry << std::endl;
 }
 
 Labyrinth::~Labyrinth()

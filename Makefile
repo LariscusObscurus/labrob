@@ -1,4 +1,4 @@
-CC=g++
+CC=clang++
 NAME=labyrinth
 CFLAGS=-Wall -std=c++0x
 LFLAGS=
