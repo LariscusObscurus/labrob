@@ -6,6 +6,7 @@ public:
 	RobotRightHand (int x, int y, Labyrinth* lab);
 	virtual ~RobotRightHand ();
 	virtual int start();
+	virtual std::string getName();
 
 private:
 	int mCount;

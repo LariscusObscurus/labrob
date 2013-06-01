@@ -1,6 +1,8 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include <string>
+
 class Labyrinth;
 
 #define CRITICAL_ERROR 0xffffffff
@@ -24,6 +26,7 @@ public:
 	Robot (int x, int y, Labyrinth * labIn);
 	virtual ~Robot ();
 	virtual int start() = 0;
+	virtual std::string getName() = 0;
 protected:
 	virtual bool move(dir_t dir);
 	virtual int move(int x, int y);

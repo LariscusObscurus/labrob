@@ -30,3 +30,8 @@ void RobotLeftHand::algo()
 		}
 	}
 }
+
+std::string RobotLeftHand::getName()
+{
+	return "T1";
+}
