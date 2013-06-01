@@ -9,6 +9,11 @@
 #include "RobotLeftHand.hpp"
 #include "RobotRightHand.hpp"
 
+struct robotResult{
+	std::string name;
+	int steps;
+};
+
 int getCmdOption(char ** begin, char ** end, const std::string& option, 
 		std::vector<std::string>& out)
 {
@@ -32,6 +37,7 @@ int main(int argc, char *argv[])
 {
 	std::vector<std::string> args(0);
 	std::list<Robot*> robots;
+	std::list<robotResult> stepsPerRobot;
 
 	if(argc <= 1) {
 		std::cout 
@@ -91,8 +97,16 @@ int main(int argc, char *argv[])
 	
 	/* Roboter starten */
 	for(auto& it : robots) {
-		it->start();
+		robotResult result;
+		result.steps = it->start();
+		result.name = it->getName();
+		stepsPerRobot.push_back(result);
 		delete it;
+	}
+
+	for(auto& it: stepsPerRobot) {
+		std::cout << "Roboter: " << it.name 
+		<< " Schritte: " << it.steps << std::endl;
 	}
 
 	delete lab;
