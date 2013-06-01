@@ -17,6 +17,7 @@ public:
 	virtual ~RobotInsane ();
 
 	virtual int start();
+	virtual std::string getName() { return "RobotInsane"; }
 private:
 	std::list<DIR> getFreeDirections();
 	DIR getNextDirection(const std::list<DIR>& dir);
