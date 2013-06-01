@@ -17,8 +17,7 @@ int RobotLeftHand::start()
 		algo();
 		mCount++;
 	}
-	std::cout << "t1 - Ziel erreicht! Schritte: "<< mCount << std::endl;
-	return 1;
+	return mCount;
 }
 
 void RobotLeftHand::algo()
