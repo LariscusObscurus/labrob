@@ -1,4 +1,5 @@
 #include "RobotInsane.hpp"
+#include "Labyrinth.hpp"
 #include <algorithm>
 
 RobotInsane::RobotInsane(int x, int y, Labyrinth* lab) : Robot(x, y, lab)
@@ -44,16 +45,16 @@ std::list<DIR> RobotInsane::getFreeDirections()
 	Labyrinth* lab = getLabyrinth();
 	std::list<DIR> result(0);
 	
-	if (lab->isFree(getX()+1, getY())) {
+	if (lab->isfree(getX()+1, getY())) {
 		result.push_back(E);
 	}
-	if (lab->isFree(getX()-1, getY())) {
+	if (lab->isfree(getX()-1, getY())) {
 		result.push_back(W);
 	}
-	if (lab->isFree(getX(), getY()+1)) {
+	if (lab->isfree(getX(), getY()+1)) {
 		result.push_back(S);
 	}
-	if (lab->isFree(getX(), getY()-1)) {
+	if (lab->isfree(getX(), getY()-1)) {
 		result.push_back(N);
 	}
 	
@@ -69,7 +70,7 @@ DIR RobotInsane::getNextDirection(const std::list<DIR>& freeDir)
 	if (it != mVertices.end()) {
 		return checkMarkedDirection(freeDir, it->direction);
 	} else {
-		Vertex& v = addVertex(getX(), getY(), freeDir);
+		Vertex& v = addVertex(getX(), getY(), const_cast<std::list<DIR>&>(freeDir));
 		v.direction[freeDir.front()] += 1;
 		return freeDir.front();
 	}
@@ -77,7 +78,6 @@ DIR RobotInsane::getNextDirection(const std::list<DIR>& freeDir)
 
 DIR RobotInsane::checkMarkedDirection(const std::list<DIR>& freeDir, std::map<DIR, int>& visited)
 {
-	DIR result = NONE;
 	std::pair<DIR, int> highest(NONE, 0);
 	std::pair<DIR, int> lowest(NONE, 2);
 	
@@ -115,9 +115,9 @@ void RobotInsane::updateVertex(int x, int y, DIR dir)
 	}
 }
 
-Vertex& RobotInsane::addVertex(int x, int y, std::list<DIR>& directions)
+RobotInsane::Vertex& RobotInsane::addVertex(int x, int y, std::list<DIR>& directions)
 {
-	Vertex vertex = {x, y, std::map<DIR, int>(0)};
+	Vertex vertex = {x, y, std::map<DIR, int>()};
 	auto& map = vertex.direction;
 	mVertices.push_back(vertex);
 	
@@ -143,6 +143,8 @@ DIR RobotInsane::opposite()
 	case S:
 		setView(N);
 		return N;
+	default:
+		break;
 	}
 	return NONE;
 }

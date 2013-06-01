@@ -80,8 +80,11 @@ int main(int argc, char *argv[])
 				std::cout 
 				<< "-t2 gestartet." << std::endl;
 			} else if(it[0] == "-t3") {
+				Robot* robInsane = new RobotInsane(
+							start.x, start.y, lab);
+				robots.push_back(robInsane);
 				std::cout 
-				<< "-t3 nicht implementiert" << std::endl;
+				<< "-t3 gestartet." << std::endl;
 			} else {
 				std::cout << it[0] 
 				<< " unbekannter Roboter Typ" << std::endl;

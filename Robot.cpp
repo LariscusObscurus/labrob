@@ -38,6 +38,8 @@ bool Robot::move(dir_t dir)
 			result = 0;
 		}
 		break;
+	default:
+		break;
 	}
 	return result;
 }
@@ -75,6 +77,8 @@ void Robot::turnRight()
 	case W:
 		mView = N;
 		break;
+	default:
+		break;
 	}
 }
 
@@ -92,6 +96,8 @@ void Robot::turnLeft()
 		break;
 	case W:
 		mView = S;
+		break;
+	default:
 		break;
 	}
 }

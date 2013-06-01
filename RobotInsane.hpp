@@ -2,6 +2,8 @@
 #include <list>
 #include <map>
 
+class Labyrinth;
+
 class RobotInsane : public virtual Robot
 {
 	struct Vertex {
