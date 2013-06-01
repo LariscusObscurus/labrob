@@ -4,6 +4,8 @@
 
 RobotInsane::RobotInsane(int x, int y, Labyrinth* lab) : Robot(x, y, lab)
 {
+	mPreviousPos = {x,y};
+	mCounter = 0;
 }
 
 RobotInsane::~RobotInsane()
@@ -12,32 +14,41 @@ RobotInsane::~RobotInsane()
 
 int RobotInsane::start()
 {
-	int result = NO_ERROR;
-	std::list<DIR> startView = getFreeDirections();
-	setView(startView.front());
-	
 	while (!isFinish()) {
-		std::list<DIR> directions = getFreeDirections();
-		DIR dir = NONE;
+		DIR dir = getNextDirection();
 		
-		if (!directions.empty() && directions.size() > 2) {
-			dir = getNextDirection(directions);
-			updateVertex(getX(), getY(), dir);
-			setView(dir);
-			move(getView());
-		} else if (!directions.empty() && directions.size() == 2) {
-// 			updateVertex(getX(), getY(), directions.front());
-			move(getView());
-		} else if (!directions.empty() && directions.size() == 1) {
-// 			updateVertex(getX(), getY(), directions.front());
-			move(directions.front());
-		} else {
-			result = CRITICAL_ERROR;
-			break;
+		if (dir == NONE) {
+			return CRITICAL_ERROR;
 		}
+		mCounter++;
+		move(dir);
 	}
 	
-	return result;
+	return mCounter;
+}
+
+DIR RobotInsane::getNextDirection()
+{
+	std::list<DIR> dirs = getFreeDirections();
+	// one way direction
+	if (dirs.size() == 1) {
+		return dirs.front();
+	// crossroad
+	} else if (dirs.size() > 1) {
+		mPreviousPos = currentPos();
+		
+		if (nodesExist()) {
+			DIR dir = chooseRoute(dirs);
+			return dir;
+		} else {
+			createNodes(dirs);
+			DIR dir = chooseRoute(dirs);
+			markLastRoute();
+			return dir;
+		}
+	}
+	// error
+	return NONE;
 }
 
 std::list<DIR> RobotInsane::getFreeDirections()
@@ -61,90 +72,131 @@ std::list<DIR> RobotInsane::getFreeDirections()
 	return result;
 }
 
-DIR RobotInsane::getNextDirection(const std::list<DIR>& freeDir)
+bool RobotInsane::nodesExist()
 {
-	auto it = find_if(mVertices.begin(), mVertices.end(), [=](const Vertex& v){
-		return (getX() == v.x && getY() == v.y);
+	bool result = false;
+	Position pos = currentPos();
+	
+	auto it = find_if(mNodes.begin(), mNodes.end(), [=](const Node& node){
+		return (node.x == pos.x && node.y == pos.y && node.marker == EXIST);
 	});
 	
-	if (it != mVertices.end()) {
-		return checkMarkedDirection(freeDir, it->direction);
-	} else {
-		Vertex& v = addVertex(getX(), getY(), const_cast<std::list<DIR>&>(freeDir));
-		v.direction[freeDir.front()] += 1;
-		return freeDir.front();
+	if (it != mNodes.end()) {
+		result = true;
+	}
+	
+	return result;
+}
+	
+void RobotInsane::createNodes(const std::list<DIR>& dirs)
+{
+	Position pos = currentPos();
+	Node node = {pos.x, pos.y, EXIST};
+	mNodes.push_back(node);
+	
+	for (DIR dir : dirs) {
+		Position pos = convertDir(dir);
+		Node node = {pos.x, pos.y, FREE};
+		mNodes.push_back(node);
 	}
 }
 
-DIR RobotInsane::checkMarkedDirection(const std::list<DIR>& freeDir, std::map<DIR, int>& visited)
+void RobotInsane::markLastRoute()
 {
-	std::pair<DIR, int> highest(NONE, 0);
-	std::pair<DIR, int> lowest(NONE, 2);
+	auto it = find_if(mNodes.begin(), mNodes.end(), [=](const Node& node){
+		return (node.x == mPreviousPos.x && node.y == mPreviousPos.y);
+	});
 	
-	for (auto& it : visited) {
-		if (!it.second) {
-			it.second += 1;
-			return it.first;
-		} else {
-			if (it.second > highest.second) {
-				highest = it;
+	if (it != mNodes.end()) {
+		it->marker = LAST;
+	}
+}
+
+DIR RobotInsane::chooseRoute(const std::list<DIR>& dirs)
+{
+	Position pos = {0,0};
+	DIR last = NONE;
+	
+	for (DIR dir : dirs) {
+		pos = convertDir(dir);
+		
+		auto it = find_if(mNodes.begin(), mNodes.end(), [dir, pos, &last](const Node& node){
+			if (node.x == pos.x && node.y == pos.y && node.marker == LAST) {
+				last = dir;
+				return false;
 			}
-			if (it.second < lowest.second) {
-				lowest = it;
-			}
+			return (node.x == pos.x && node.y == pos.y && node.marker == FREE);
+		});
+		
+		if (it != mNodes.end()) {
+			it->marker = STOP;
+			return dir;
 		}
 	}
 	
-	if (highest.second == lowest.second && highest.second == 2) {
-		return opposite();
-	} else {
-		visited[lowest.first] += 1;
-		return lowest.first;
-	}
+	return last;
 }
 
-void RobotInsane::updateVertex(int x, int y, DIR dir)
+DIR RobotInsane::opposite(DIR dir)
 {
-	auto it = std::find_if(mVertices.begin(), mVertices.end(), [=](const Vertex& vertex){
-		return (vertex.x == x && vertex.y == y);
-	});
-	
-	if (it != mVertices.end()) {
-		auto& map = it->direction;
-		map[dir] += 1;
-	}
-}
-
-RobotInsane::Vertex& RobotInsane::addVertex(int x, int y, std::list<DIR>& directions)
-{
-	Vertex vertex = {x, y, std::map<DIR, int>()};
-	auto& map = vertex.direction;
-	mVertices.push_back(vertex);
-	
-	for (DIR it : directions) {
-		map[it] = 0;
-	}
-	
-	return mVertices.back();
-}
-
-DIR RobotInsane::opposite()
-{
-	switch (getView()) {
+	switch (dir) {
 	case N:
-		setView(S);
 		return S;
 	case E:
-		setView(W);
 		return W;
 	case W:
-		setView(E);
 		return E;
 	case S:
-		setView(N);
 		return N;
 	default:
 		break;
 	}
 	return NONE;
+}
+
+RobotInsane::Position RobotInsane::convertDir(DIR dir)
+{
+	Position result = {getX(),getY()};
+	switch (dir) {
+	case N:
+		result.y -= 1;
+		break;
+	case E:
+		result.x += 1;
+		break;
+	case W:
+		result.x -= 1;
+		break;
+	case S:
+		result.y += 1;
+		break;
+	default:
+		break;
+	}
+	return result;
+}
+
+DIR RobotInsane::convertPos(Position pos)
+{
+	DIR result = NONE;
+	int adjX = getX() - pos.x;
+	int adjY = getY() - pos.y;
+	
+	if (adjX == 1) {
+		result = E;
+	} else if (adjX == -1) {
+		result = W;
+	} else if (adjY == 1) {
+		result = S;
+	} else if (adjY == -1) {
+		result = N;
+	}
+	
+	return result;
+}
+
+RobotInsane::Position RobotInsane::currentPos()
+{
+	Position result = {getX(), getY()};
+	return result;
 }

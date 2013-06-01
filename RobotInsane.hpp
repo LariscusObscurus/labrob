@@ -2,27 +2,44 @@
 #include <list>
 #include <map>
 
-class Labyrinth;
-
 class RobotInsane : public virtual Robot
 {
-	struct Vertex {
+	
+	enum MARKER {
+		FREE,
+		STOP,
+		LAST,
+		EXIST
+	};
+	
+	struct Node {
 		int x;
 		int y;
-		std::map<DIR, int> direction;
+		MARKER marker;
 	};
-	std::list<Vertex> mVertices;
+	
+	Labyrinth::Position mPreviousPos;
+	std::list<Node> mNodes;
+	int mCounter;
 public:
 	RobotInsane (int x, int y, Labyrinth* lab);
 	virtual ~RobotInsane ();
 
 	virtual int start();
 	virtual std::string getName() { return "RobotInsane"; }
+	
+	typedef Labyrinth::Position Position;
 private:
+	DIR getNextDirection();
 	std::list<DIR> getFreeDirections();
-	DIR getNextDirection(const std::list<DIR>& dir);
-	DIR checkMarkedDirection(const std::list<DIR>& dir, std::map<DIR, int>& visited);
-	void updateVertex(int x, int y, DIR dir);
-	Vertex& addVertex(int x, int y, std::list<DIR>& directions);
-	DIR opposite();
+	
+	bool nodesExist();
+	void createNodes(const std::list<DIR>& dirs);
+	void markLastRoute();
+	DIR chooseRoute(const std::list<DIR>& dirs);
+	
+	DIR opposite(DIR dir);
+	Position convertDir(DIR dir);
+	DIR convertPos(Position pos);
+	Position currentPos();
 };

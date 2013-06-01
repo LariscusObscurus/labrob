@@ -5,8 +5,6 @@
 #include <string>
 #include <list>
 
-class Labyrinth;
-
 #define CRITICAL_ERROR 0xffffffff
 #define NO_ERROR       0x0
 
