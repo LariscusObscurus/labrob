@@ -21,6 +21,7 @@ int RobotInsane::start()
 			return CRITICAL_ERROR;
 		}
 		mCounter++;
+		mPreviousPos = currentPos();
 		move(dir);
 	}
 	
@@ -33,17 +34,19 @@ DIR RobotInsane::getNextDirection()
 	// one way direction
 	if (dirs.size() == 1) {
 		return dirs.front();
+	// passage
+	} else if (dirs.size() == 2) {
+		return convertPos(mPreviousPos) == dirs.front() ? dirs.back() : dirs.front();
 	// crossroad
-	} else if (dirs.size() > 1) {
-		mPreviousPos = currentPos();
+	} else if (dirs.size() > 2) {
 		
 		if (nodesExist()) {
 			DIR dir = chooseRoute(dirs);
 			return dir;
 		} else {
 			createNodes(dirs);
-			DIR dir = chooseRoute(dirs);
 			markLastRoute();
+			DIR dir = chooseRoute(dirs);
 			return dir;
 		}
 	}
