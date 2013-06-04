@@ -16,7 +16,15 @@ class RobotInsane : public virtual Robot
 		int x;
 		int y;
 		MARKER marker;
+		
+		struct Offshoot {
+			int x;
+			int y;
+			MARKER marker;
+		};
+		std::list<Offshoot> offshoots;
 	};
+	typedef Node::Offshoot Offshoot;
 	
 	Labyrinth::Position mPreviousPos;
 	std::list<Node> mNodes;
@@ -34,7 +42,7 @@ private:
 	
 	bool nodesExist();
 	void createNodes(const std::list<DIR>& dirs);
-	void markLastRoute();
+// 	void markLastRoute();
 	DIR chooseRoute(const std::list<DIR>& dirs);
 	
 	DIR opposite(DIR dir);

@@ -14,6 +14,7 @@ RobotInsane::~RobotInsane()
 
 int RobotInsane::start()
 {
+	savePos();
 	while (!isFinish()) {
 		DIR dir = getNextDirection();
 		
@@ -21,9 +22,9 @@ int RobotInsane::start()
 			return CRITICAL_ERROR;
 		}
 		mCounter++;
-		savePos();
 		mPreviousPos = getPos();
 		move(dir);
+		savePos();
 	}
 	
 	return mCounter;
@@ -45,7 +46,7 @@ DIR RobotInsane::getNextDirection()
 			return dir;
 		} else {
 			createNodes(dirs);
-			markLastRoute();
+// 			markLastRoute();
 			DIR dir = chooseRoute(dirs);
 			return dir;
 		}
@@ -73,16 +74,21 @@ bool RobotInsane::nodesExist()
 void RobotInsane::createNodes(const std::list<DIR>& dirs)
 {
 	Position pos = getPos();
-	Node node = {pos.x, pos.y, EXIST};
-	mNodes.push_back(node);
+	Node node = {pos.x, pos.y, EXIST, std::list<Offshoot>(0)};
 	
 	for (DIR dir : dirs) {
 		Position pos = convertDir(dir);
-		Node node = {pos.x, pos.y, FREE};
-		mNodes.push_back(node);
+		Offshoot offshoot = {pos.x, pos.y, FREE};
+		
+		if (pos.x == mPreviousPos.x && pos.y == mPreviousPos.y) {
+			offshoot.marker = LAST;
+		}
+		
+		node.offshoots.push_back(offshoot);
 	}
+	mNodes.push_back(node);
 }
-
+/*
 void RobotInsane::markLastRoute()
 {
 	auto it = find_if(mNodes.begin(), mNodes.end(), [=](const Node& node){
@@ -93,39 +99,34 @@ void RobotInsane::markLastRoute()
 		it->marker = LAST;
 	}
 }
-
+*/
 DIR RobotInsane::chooseRoute(const std::list<DIR>& dirs)
 {
-	Position pos = {0,0};
-	DIR last = NONE;
+	Position pos = getPos();
+	DIR last = NONE;	
+	auto it = find_if(mNodes.begin(), mNodes.end(), [=](const Node& node){
+		return (node.x == pos.x && node.y == pos.y);
+	});
 	
 	for (DIR dir : dirs) {
 		pos = convertDir(dir);
 		
-		auto it = find_if(mNodes.begin(), mNodes.end(), [dir, pos, &last](const Node& node){
-			if (node.x == pos.x && node.y == pos.y && node.marker == LAST) {
-				last = dir;
-				return false;
+		if (it != mNodes.end()) {
+			auto offshoot = find_if(it->offshoots.begin(), it->offshoots.end(), [=, &last](const Offshoot& o){
+				if (o.x == pos.x && o.y == pos.y && o.marker == LAST) {
+					last = dir;
+					return false;
+				}
+				return (o.x == pos.x && o.y == pos.y && o.marker == FREE);
+			});
+			
+			if (offshoot != it->offshoots.end()) {
+				offshoot->marker = STOP;
+				return dir;
 			}
-			return (node.x == pos.x && node.y == pos.y && node.marker == FREE);
-		});
-		
-		if (it != mNodes.end()) {
-			it->marker = STOP;
-			return dir;
 		}
 	}
-	/*
-	if (last != NONE) {
-		auto it = find_if(mNodes.begin(), mNodes.end(), [pos](const Node& node){
-			return (node.x == pos.x && node.y == pos.y && node.marker == LAST);
-		});
-		
-		if (it != mNodes.end()) {
-			it->marker = STOP;
-		}
-	}
-	*/
+	
 	return last;
 }
 
