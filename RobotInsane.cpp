@@ -96,22 +96,24 @@ DIR RobotInsane::chooseRoute(const std::list<DIR>& dirs)
 		return (node.x == pos.x && node.y == pos.y);
 	});
 	
+	if (it == mNodes.end()) {
+		return NONE;
+	}
+	
 	for (DIR dir : dirs) {
 		pos = convertDir(dir);
 		
-		if (it != mNodes.end()) {
-			auto offshoot = find_if(it->offshoots.begin(), it->offshoots.end(), [=, &last](const Offshoot& o){
-				if (o.x == pos.x && o.y == pos.y && o.marker == LAST) {
-					last = dir;
-					return false;
-				}
-				return (o.x == pos.x && o.y == pos.y && o.marker == FREE);
-			});
-			
-			if (offshoot != it->offshoots.end()) {
-				offshoot->marker = STOP;
-				return dir;
+		auto offshoot = find_if(it->offshoots.begin(), it->offshoots.end(), [=, &last](const Offshoot& o){
+			if (o.x == pos.x && o.y == pos.y && o.marker == LAST) {
+				last = dir;
+				return false;
 			}
+			return (o.x == pos.x && o.y == pos.y && o.marker == FREE);
+		});
+		
+		if (offshoot != it->offshoots.end()) {
+			offshoot->marker = STOP;
+			return dir;
 		}
 	}
 	
