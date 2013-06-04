@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 	if(argc <= 1) {
 		std::cout 
-		<< "Verwendung: labyrinth DATEINAME [-t1] [-t2] ... [-tN] [-p] [-h]" 
+		<< "Verwendung: labrob DATEINAME [-t1] [-t2] ... [-tN] [-p] [-h]" 
 		<< std::endl;
 
 		return -1;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	
 	if(cmdOptionExists(argv, argv+argc, "-h")) {
 		std::cout 
-		<< "Verwendung: labyrinth DATEINAME [-t1] [-t2] ... [-tN] [-p] [-h]" 
+		<< "Verwendung: labrob DATEINAME [-t1] [-t2] ... [-tN] [-p] [-h]" 
 		<< std::endl;
 
 		return 0;
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 		std::cout 
 		<< "Fehler: Keine Roboter angegeben."
 		<< std::endl
-		<< "Verwendung: labyrinth DATEINAME [-t1] [-t2] ... [-tN] [-p] [-h]" 
+		<< "Verwendung: labrob DATEINAME [-t1] [-t2] ... [-tN] [-p] [-h]" 
 		<< std::endl;
 		return -1;
 	}
