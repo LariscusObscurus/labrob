@@ -15,7 +15,6 @@ class RobotInsane : public virtual Robot
 	struct Node {
 		int x;
 		int y;
-		MARKER marker;
 		
 		struct Offshoot {
 			int x;
@@ -42,7 +41,6 @@ private:
 	
 	bool nodesExist();
 	void createNodes(const std::list<DIR>& dirs);
-// 	void markLastRoute();
 	DIR chooseRoute(const std::list<DIR>& dirs);
 	
 	DIR opposite(DIR dir);
