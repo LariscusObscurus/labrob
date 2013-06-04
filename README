@@ -1,0 +1,9 @@
+David Wolf, Leonhardt Schwarz
+
+labrob ließt ein Labyrinth aus einer Textdatei ein und kann Roboter durch dieses 
+Labyrinth fahren lassen. 
+
+Es gibt drei unterschiedliche Roboter Typen:
+	-t1 -- Verwendet die linke Hand regel
+	-t2 -- Verwendet die rechte Hand regel
+	-t3 -- Verwendet den Algorithmus von Gaston Tarry 
