@@ -46,7 +46,6 @@ DIR RobotInsane::getNextDirection()
 			return dir;
 		} else {
 			createNodes(dirs);
-// 			markLastRoute();
 			DIR dir = chooseRoute(dirs);
 			return dir;
 		}
@@ -61,7 +60,7 @@ bool RobotInsane::nodesExist()
 	Position pos = getPos();
 	
 	auto it = find_if(mNodes.begin(), mNodes.end(), [=](const Node& node){
-		return (node.x == pos.x && node.y == pos.y && node.marker == EXIST);
+		return (node.x == pos.x && node.y == pos.y);
 	});
 	
 	if (it != mNodes.end()) {
@@ -74,7 +73,7 @@ bool RobotInsane::nodesExist()
 void RobotInsane::createNodes(const std::list<DIR>& dirs)
 {
 	Position pos = getPos();
-	Node node = {pos.x, pos.y, EXIST, std::list<Offshoot>(0)};
+	Node node = {pos.x, pos.y, std::list<Offshoot>(0)};
 	
 	for (DIR dir : dirs) {
 		Position pos = convertDir(dir);
@@ -88,18 +87,7 @@ void RobotInsane::createNodes(const std::list<DIR>& dirs)
 	}
 	mNodes.push_back(node);
 }
-/*
-void RobotInsane::markLastRoute()
-{
-	auto it = find_if(mNodes.begin(), mNodes.end(), [=](const Node& node){
-		return (node.x == mPreviousPos.x && node.y == mPreviousPos.y);
-	});
-	
-	if (it != mNodes.end()) {
-		it->marker = LAST;
-	}
-}
-*/
+
 DIR RobotInsane::chooseRoute(const std::list<DIR>& dirs)
 {
 	Position pos = getPos();
@@ -172,8 +160,9 @@ RobotInsane::Position RobotInsane::convertDir(DIR dir)
 DIR RobotInsane::convertPos(Position pos)
 {
 	DIR result = NONE;
-	int adjX = getX() - pos.x;
-	int adjY = getY() - pos.y;
+	Position currentPos = getPos();
+	int adjX = currentPos.x - pos.x;
+	int adjY = currentPos.y - pos.y;
 	
 	if (adjX == 1) {
 		result = E;
