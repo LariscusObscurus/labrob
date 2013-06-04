@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	std::ifstream fileStream(argv[1]);
 	fileStream.unsetf(std::ios_base::skipws);
 	if(!fileStream) {
-		std::cerr << "Could not open file!" << std::endl;
+		std::cerr << "Datei konnte nicht geöffnet werden." << std::endl;
 		return -1;
 	}
 	
