@@ -33,7 +33,7 @@ public:
 	virtual ~RobotInsane ();
 
 	virtual int start();
-	virtual std::string getName() { return "RobotInsane"; }
+	virtual std::string getName() { return "T3"; }
 	
 	typedef Labyrinth::Position Position;
 private:
