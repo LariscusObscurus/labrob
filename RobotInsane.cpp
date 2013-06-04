@@ -21,6 +21,7 @@ int RobotInsane::start()
 			return CRITICAL_ERROR;
 		}
 		mCounter++;
+		savePos();
 		mPreviousPos = getPos();
 		move(dir);
 	}
@@ -114,7 +115,17 @@ DIR RobotInsane::chooseRoute(const std::list<DIR>& dirs)
 			return dir;
 		}
 	}
-	
+	/*
+	if (last != NONE) {
+		auto it = find_if(mNodes.begin(), mNodes.end(), [pos](const Node& node){
+			return (node.x == pos.x && node.y == pos.y && node.marker == LAST);
+		});
+		
+		if (it != mNodes.end()) {
+			it->marker = STOP;
+		}
+	}
+	*/
 	return last;
 }
 
