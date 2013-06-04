@@ -113,3 +113,23 @@ void Robot::showPath()
 {
 	mLab->plotPath(mPath);
 }
+
+std::list<DIR> Robot::getFreeDirections()
+{
+	std::list<DIR> result(0);
+	
+	if (mLab->isfree(mPos.x+1, mPos.y)) {
+		result.push_back(E);
+	}
+	if (mLab->isfree(mPos.x-1, mPos.y)) {
+		result.push_back(W);
+	}
+	if (mLab->isfree(mPos.x, mPos.y+1)) {
+		result.push_back(S);
+	}
+	if (mLab->isfree(mPos.x, mPos.y-1)) {
+		result.push_back(N);
+	}
+	
+	return result;
+}

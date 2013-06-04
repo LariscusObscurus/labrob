@@ -21,7 +21,7 @@ int RobotInsane::start()
 			return CRITICAL_ERROR;
 		}
 		mCounter++;
-		mPreviousPos = currentPos();
+		mPreviousPos = getPos();
 		move(dir);
 	}
 	
@@ -54,31 +54,10 @@ DIR RobotInsane::getNextDirection()
 	return NONE;
 }
 
-std::list<DIR> RobotInsane::getFreeDirections()
-{
-	Labyrinth* lab = getLabyrinth();
-	std::list<DIR> result(0);
-	
-	if (lab->isfree(getX()+1, getY())) {
-		result.push_back(E);
-	}
-	if (lab->isfree(getX()-1, getY())) {
-		result.push_back(W);
-	}
-	if (lab->isfree(getX(), getY()+1)) {
-		result.push_back(S);
-	}
-	if (lab->isfree(getX(), getY()-1)) {
-		result.push_back(N);
-	}
-	
-	return result;
-}
-
 bool RobotInsane::nodesExist()
 {
 	bool result = false;
-	Position pos = currentPos();
+	Position pos = getPos();
 	
 	auto it = find_if(mNodes.begin(), mNodes.end(), [=](const Node& node){
 		return (node.x == pos.x && node.y == pos.y && node.marker == EXIST);
@@ -93,7 +72,7 @@ bool RobotInsane::nodesExist()
 	
 void RobotInsane::createNodes(const std::list<DIR>& dirs)
 {
-	Position pos = currentPos();
+	Position pos = getPos();
 	Node node = {pos.x, pos.y, EXIST};
 	mNodes.push_back(node);
 	
@@ -159,7 +138,7 @@ DIR RobotInsane::opposite(DIR dir)
 
 RobotInsane::Position RobotInsane::convertDir(DIR dir)
 {
-	Position result = {getX(),getY()};
+	Position result = getPos();
 	switch (dir) {
 	case N:
 		result.y -= 1;
@@ -195,11 +174,5 @@ DIR RobotInsane::convertPos(Position pos)
 		result = N;
 	}
 	
-	return result;
-}
-
-RobotInsane::Position RobotInsane::currentPos()
-{
-	Position result = {getX(), getY()};
 	return result;
 }

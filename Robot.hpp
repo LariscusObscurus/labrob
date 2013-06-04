@@ -37,10 +37,14 @@ protected:
 	
 	int getX() const { return mPos.x; }
 	int getY() const { return mPos.y; }
+	Labyrinth::Position getPos() const { return mPos; }
 	Labyrinth* getLabyrinth() { return mLab; }
 	DIR getView() const { return mView; }
 	void setView(DIR value) { mView = value; }
+
 	void turnRight();
 	void turnLeft();
+
+	std::list<DIR> getFreeDirections();
 };
 #endif 

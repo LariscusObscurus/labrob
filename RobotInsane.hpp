@@ -31,7 +31,6 @@ public:
 	typedef Labyrinth::Position Position;
 private:
 	DIR getNextDirection();
-	std::list<DIR> getFreeDirections();
 	
 	bool nodesExist();
 	void createNodes(const std::list<DIR>& dirs);
@@ -41,5 +40,4 @@ private:
 	DIR opposite(DIR dir);
 	Position convertDir(DIR dir);
 	DIR convertPos(Position pos);
-	Position currentPos();
 };
