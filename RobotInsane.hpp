@@ -8,8 +8,7 @@ class RobotInsane : public virtual Robot
 	enum MARKER {
 		FREE,
 		STOP,
-		LAST,
-		EXIST
+		LAST
 	};
 	
 	struct Node {
