@@ -3,7 +3,13 @@ David Wolf, Leonhardt Schwarz
 labrob ließt ein Labyrinth aus einer Textdatei ein und kann Roboter durch dieses 
 Labyrinth fahren lassen. 
 
+Verwendung: labrob DATEINAME [-t1] [-t2] ... [-tN] [-p] [-h]
+
+	-p -- Ausgabe des des Pfads den jeder Roboter gegangen ist
+
 Es gibt drei unterschiedliche Roboter Typen:
 	-t1 -- Verwendet die linke Hand regel
 	-t2 -- Verwendet die rechte Hand regel
 	-t3 -- Verwendet den Algorithmus von Gaston Tarry 
+
+	-h -- Ausgabe eines kurzen Hilfetexts
