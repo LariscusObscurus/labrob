@@ -36,10 +36,9 @@ DIR RobotInsane::getNextDirection()
 		return dirs.front();
 	// passage
 	} else if (dirs.size() == 2) {
-		return convertPos(mPreviousPos) == dirs.front() ? dirs.back() : dirs.front();
+		return opposite(convertPos(mPreviousPos)) == dirs.front() ? dirs.back() : dirs.front();
 	// crossroad
 	} else if (dirs.size() > 2) {
-		
 		if (nodesExist()) {
 			DIR dir = chooseRoute(dirs);
 			return dir;
