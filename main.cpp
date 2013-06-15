@@ -48,18 +48,28 @@ robotResult robotThreadFunction(bool showPath, Robot* robot)
 	result.steps = robot->start();
 	result.name = robot->getName();
 	
-	// save print to stdout
-	gCoutM.lock();
-	
 	if(showPath) {
+		gCoutM.lock();
 		robot->showPath();
+		gCoutM.unlock();
 	}
 	
-	gCoutM.unlock();
-	// end of save print
-	
 	delete robot;
+	gResultM.lock();
+	gResults.push_back(result);
+	gResultM.unlock();
 	return result;
+}
+
+void handleRobot(int argc, char** argv, Robot* robot)
+{
+	std::future<robotResult> f = std::async(
+		std::launch::async,
+		&robotThreadFunction, 
+		cmdOptionExists(argv, argv+argc, "-p"),
+		robot
+	);
+	f.get();
 }
 
 int main(int argc, char *argv[])
@@ -119,14 +129,7 @@ int main(int argc, char *argv[])
 					start.y,
 					&gLab
 				);
-				std::future<robotResult> f = std::async(
-					&robotThreadFunction, 
-					cmdOptionExists(argv, argv+argc, "-p"),
-					robot
-				);
-				gResultM.lock();
-				gResults.push_back(f.get());
-				gResultM.unlock();
+				handleRobot(argc, argv, robot);
 			} else if(it[0] == "-t2") {
 				gCoutM.lock();
 				std::cout 
@@ -138,14 +141,7 @@ int main(int argc, char *argv[])
 					start.y,
 					&gLab
 				);
-				std::future<robotResult> f = std::async(
-					&robotThreadFunction, 
-					cmdOptionExists(argv, argv+argc, "-p"),
-					robot
-				);
-				gResultM.lock();
-				gResults.push_back(f.get());
-				gResultM.unlock();
+				handleRobot(argc, argv, robot);
 			} else if(it[0] == "-t3") {
 				gCoutM.lock();
 				std::cout 
@@ -157,14 +153,7 @@ int main(int argc, char *argv[])
 					start.y,
 					&gLab
 				);
-				std::future<robotResult> f = std::async(
-					&robotThreadFunction, 
-					cmdOptionExists(argv, argv+argc, "-p"),
-					robot
-				);
-				gResultM.lock();
-				gResults.push_back(f.get());
-				gResultM.unlock();
+				handleRobot(argc, argv, robot);
 			} else {
 				gCoutM.lock();
 				std::cout << it[0] 
@@ -175,19 +164,6 @@ int main(int argc, char *argv[])
 		}
 	}
 	
-	/* übung 6
-	// roboter starten
-	for(auto& it : robots) {
-		robotResult result;
-		result.steps = it->start();
-		result.name = it->getName();
-		if(cmdOptionExists(argv, argv+argc, "-p")) {
-			it->showPath();
-		}
-		stepsPerRobot.push_back(result);
-		delete it;
-	}
-	*/
 	for(auto& it: gResults) {
 		std::cout << "Roboter: " << it.name 
 			<< " Schritte: " << it.steps 
