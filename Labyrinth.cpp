@@ -5,6 +5,11 @@
 #include <algorithm>
 #include <iterator>
 
+Labyrinth::Labyrinth()
+	: mWidth(0), mHeight(0), mEntry(-1), mExit(-1)
+{
+}
+
 Labyrinth::Labyrinth(std::ifstream& fileStream)
 	: mWidth(0), mHeight(0), mEntry(-1), mExit(-1)
 {
@@ -41,8 +46,6 @@ Labyrinth::~Labyrinth()
 
 bool Labyrinth::isfree(int x, int y)
 {
-	std::lock_guard<std::mutex> lock1(mMutexBuffer);
-	std::lock_guard<std::mutex> lock2(mMutexWidth);
 	if((y >= mHeight) || (x >= mWidth) || (y < 0) || (x < 0)){
 		return 0;
 	}
@@ -52,7 +55,6 @@ bool Labyrinth::isfree(int x, int y)
 /* Ausgabe des Labyrinths */
 void Labyrinth::display(std::vector<char> labyrinth)
 {
-	std::lock_guard<std::mutex> lock1(mMutexWidth);
 	int size = (int) labyrinth.size();
 	for (int i = 0; i <= size; i++) {
 		if(i == size) {
@@ -68,26 +70,21 @@ void Labyrinth::display(std::vector<char> labyrinth)
 
 std::vector<char> Labyrinth::getBuffer()
 {
-	std::lock_guard<std::mutex> lock(mMutexBuffer);
 	return mBuffer;
 }
 
 int Labyrinth::getWidth()
 {
-	std::lock_guard<std::mutex> lock(mMutexWidth);
 	return mWidth;
 }
 
 int Labyrinth::getHeight()
 {
-	std::lock_guard<std::mutex> lock(mMutexHeight);
 	return mHeight;
 }
 
 Labyrinth::Position Labyrinth::getEntry()
 {
-	std::lock_guard<std::mutex> lock1(mMutexWidth);
-	std::lock_guard<std::mutex> lock2(mMutexEntry);
 	Position result;
 	result.x = mEntry % mWidth;
 	result.y = mEntry / mWidth;
@@ -96,8 +93,6 @@ Labyrinth::Position Labyrinth::getEntry()
 
 Labyrinth::Position Labyrinth::getExit()
 {
-	std::lock_guard<std::mutex> lock1(mMutexWidth);
-	std::lock_guard<std::mutex> lock2(mMutexExit);
 	Position result;
 	result.x = mExit % mWidth;
 	result.y = mExit / mWidth;
@@ -140,10 +135,8 @@ int Labyrinth::bothFound(int pos)
 	return -1;
 }
 
-void Labyrinth::plotPath(std::list<Position> robPath)
+void Labyrinth::plotPath(const std::list<Position>& robPath)
 {
-	std::lock_guard<std::mutex> lock1(mMutexBuffer);
-	std::lock_guard<std::mutex> lock2(mMutexHeight);
 	std::vector<char> temp = mBuffer;
 	for(auto& it: robPath){
 		temp[it.y * mHeight + it.x] = '*';
@@ -153,6 +146,5 @@ void Labyrinth::plotPath(std::list<Position> robPath)
 
 void Labyrinth::showLabyrinth()
 {
-	std::lock_guard<std::mutex> lock1(mMutexBuffer);
 	display(mBuffer);
 }

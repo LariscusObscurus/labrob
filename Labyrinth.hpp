@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <fstream>
-#include <mutex>
 #include <list>
 
 class Robot;
@@ -15,12 +14,8 @@ class Labyrinth
 	int mEntry;
 	int mExit;
 	std::vector<char> mBuffer;
-	std::mutex mMutexBuffer;
-	std::mutex mMutexWidth;
-	std::mutex mMutexHeight;
-	std::mutex mMutexEntry;
-	std::mutex mMutexExit;
 public:
+	Labyrinth();
 	Labyrinth(std::ifstream& fileStream);
 	~Labyrinth();
 	
@@ -40,7 +35,7 @@ public:
 	/**
 	 * Ausgabe des Labyrinths
 	 */
-	void plotPath(std::list<Position> robPath);
+	void plotPath(const std::list<Position>& robPath);
 
 	std::vector<char> getBuffer();
 	int getWidth();

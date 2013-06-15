@@ -1,7 +1,7 @@
 CC=g++
 NAME=labrob
-CFLAGS=-Wall -std=c++0x
-LFLAGS=
+CFLAGS=-Wall -std=c++0x -pthread
+LFLAGS=-pthread
 ifdef NDEBUG
 CFLAGS+=-O3
 else
